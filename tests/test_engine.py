@@ -66,11 +66,44 @@ class LifecycleTests(unittest.TestCase):
         self.assertEqual(len(self.engine.plan(["test"])["changes"]), 2)
         self.assertFalse(self.engine.store.exists())
 
-    def test_unknown_head_refused(self):
+    def test_different_head_with_compatible_files_applies_and_restores(self):
         self.manifest["forge"]["commit"] = "0" * 40
         self.engine.package = self.make_package()
-        with self.assertRaisesRegex(Conflict, "Unsupported version"):
+        self.assertEqual(len(self.engine.plan(["test"])["warnings"]), 1)
+        self.assertEqual(self.engine.apply(["test"])["changed_files"], 2)
+        self.engine.apply([])
+        self.assertEqual((self.root / "modules/test.py").read_bytes(), b"value = 1\r\n")
+
+    def test_different_head_conflicting_file_still_refused(self):
+        self.manifest["forge"]["commit"] = "0" * 40
+        self.engine.package = self.make_package()
+        (self.root / "modules/test.py").write_bytes(b"upstream changed\n")
+        with self.assertRaisesRegex(Conflict, "Unsupported/local edits"):
+            self.engine.apply(["test"])
+        self.assertFalse((self.root / "extensions/demo/new.py").exists())
+        self.assertEqual((self.root / "modules/test.py").read_bytes(), b"upstream changed\n")
+
+    def test_different_extension_head_allowed_but_missing_repo_refused(self):
+        self.manifest["components"][0]["repositories"] = [dict(self.manifest["forge"], commit="0" * 40)]
+        self.engine.package = self.make_package()
+        self.assertEqual(len(self.engine.plan(["test"])["warnings"]), 1)
+        self.manifest["components"][0]["repositories"][0]["path"] = "extensions/missing"
+        self.engine.package = self.make_package()
+        with self.assertRaisesRegex(Conflict, "Required repository not installed"):
             self.engine.plan(["test"])
+
+    def test_unreadable_git_head_still_refused(self):
+        with patch("fnm.engine.subprocess.run", return_value=subprocess.CompletedProcess([], 128, "", "broken")):
+            with self.assertRaisesRegex(Conflict, "Could not read repository version"):
+                self.engine.plan(["test"])
+
+    def test_add_only_component_accepts_different_head(self):
+        self.manifest["forge"]["commit"] = "0" * 40
+        self.manifest["components"][0]["files"] = self.manifest["components"][0]["files"][1:]
+        self.engine.package = self.make_package()
+        self.assertEqual(self.engine.apply(["test"])["changed_files"], 1)
+        self.engine.apply([])
+        self.assertFalse((self.root / "extensions/demo/new.py").exists())
 
     def test_local_changes_refused_before_writing(self):
         (self.root / "modules/test.py").write_text("user edit\n")

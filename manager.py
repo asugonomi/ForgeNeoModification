@@ -34,6 +34,8 @@ def wizard(engine, action):
         print("中断した処理を直前の状態へ復元します。")
     else:
         plan = engine.plan(selected)
+        for warning in plan["warnings"]:
+            print("注意: " + warning)
         print(f"\n対象: {engine.root}\n変更するファイル: {len(plan['changes'])} 件")
         for name in plan["changes"]:
             print("  " + name)
@@ -87,7 +89,7 @@ def main(argv=None):
                 selected = []
             if args.action == "plan":
                 plan = engine.plan(selected)
-                print(json.dumps({"components": selected, "files": list(plan["changes"])}, ensure_ascii=False, indent=2))
+                print(json.dumps({"components": selected, "files": list(plan["changes"]), "warnings": plan["warnings"]}, ensure_ascii=False, indent=2))
             else:
                 print(json.dumps(engine.apply(selected), ensure_ascii=False))
             return 0

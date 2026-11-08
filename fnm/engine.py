@@ -239,8 +239,12 @@ class Engine:
             result = subprocess.run(["git", "-C", str(folder), "rev-parse", "HEAD"], capture_output=True, text=True, timeout=20)
         except (OSError, subprocess.TimeoutExpired) as exc:
             raise Conflict("Git is required for version checks") from exc
-        if result.returncode or result.stdout.strip() != repo["commit"]:
-            raise Conflict(f"Unsupported version: {repo['path']}; required {repo['commit']}")
+        if result.returncode or not result.stdout.strip():
+            raise Conflict(f"Could not read repository version: {repo['path']}")
+        if result.stdout.strip() != repo["commit"]:
+            return (f"基準版と異なります: {repo['path']} ({result.stdout.strip()[:12]})。"
+                    "適用対象ファイルを個別検証します。実行時の互換性は未確認です。")
+        return None
 
     def plan(self, selected):
         """Read-only planning; old baselines are the input to a package update."""
@@ -258,8 +262,11 @@ class Engine:
         component_ids = list(dict.fromkeys(selected))
         if component_ids and self.package is None:
             raise Conflict("No package supplied")
+        warnings = []
         if component_ids:
-            self.verify_repo(self.package.manifest["forge"])
+            warning = self.verify_repo(self.package.manifest["forge"])
+            if warning:
+                warnings.append(warning)
         config = read_json(self.root / "config.json") if (self.root / "config.json").is_file() else {}
         disabled = set(config.get("disabled_extensions", []))
         disable_all = config.get("disable_all_extensions", "none") != "none"
@@ -278,7 +285,9 @@ class Engine:
                 if source and marker["text"].encode() in source:
                     raise Conflict(f"Existing local implementation detected: {marker['path']}")
             for repo in component.get("repositories", []):
-                self.verify_repo(repo)
+                warning = self.verify_repo(repo)
+                if warning and warning not in warnings:
+                    warnings.append(warning)
             for operation in component["files"]:
                 relative = operation["path"]
                 if relative in desired:
@@ -289,7 +298,7 @@ class Engine:
                 desired[relative] = self.package.transform(operation, original[relative])
         changes = {name: (current[name], desired.get(name, original[name])) for name in current
                    if current[name] != desired.get(name, original[name])}
-        return {"prior": prior, "selected": component_ids, "original": original, "desired": desired, "changes": changes}
+        return {"prior": prior, "selected": component_ids, "original": original, "desired": desired, "changes": changes, "warnings": warnings}
 
     def write_target(self, relative, content):
         path = path_in(self.root, relative)
@@ -347,4 +356,4 @@ class Engine:
             except Exception:
                 self._recover()
                 raise
-            return {"changed_files": len(plan["changes"]), "components": state["components"], "version": state["version"]}
+            return {"changed_files": len(plan["changes"]), "components": state["components"], "version": state["version"], "warnings": plan["warnings"]}
