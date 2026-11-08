@@ -9,38 +9,39 @@ from fnm.engine import Conflict, Engine, Package, ExtensionConflict
 from fnm.settings import SettingsError
 
 
-def wizard(engine, action):
+def wizard(engine, action, workspace=None):
     state = engine.state()
     if action in ("install", "update"):
         if action == "update" and not state["components"]:
             raise Conflict("管理中の機能がありません。先に Install.cmd を実行してください。")
-        selected = state["components"] if action == "update" else [c["id"] for c in engine.package.components.values() if c.get("default")]
-        print("\n導入する機能を選択します。既存設定やモデルは変更しません。")
-        choices = list(engine.package.components.values())
-        for i, component in enumerate(choices, 1):
-            mark = "*" if component["id"] in selected else " "
-            print(f"{i:2}. [{mark}] {component['label']}\n      {component['license']}")
-        print("\nEnter: *の機能を使用 / 数字をカンマ区切り: 選び直し / q: 中止")
-        answer = input("> ").strip()
-        if answer.lower() == "q":
-            return 0
-        if answer:
-            indices = [int(value.strip()) for value in answer.split(",")]
-            if any(i < 1 or i > len(choices) for i in indices):
-                raise Conflict("一覧にある番号を指定してください。")
-            selected = [choices[i - 1]["id"] for i in indices]
+        selected = [c["id"] for c in engine.package.components.values() if c.get("default")]
+        if action == "update" and "queue" in state["components"]:
+            selected.append("queue")
+        print("\n全機能をまとめて導入・更新します。未導入の対象拡張は自動取得します。")
+        for component in engine.package.components.values():
+            if component["id"] in selected:
+                print("  ・" + component["label"])
+        if action == "install" and "queue" in engine.package.components:
+            if input("\n任意の生成キューも追加しますか？ y / Enterで追加しない: ").strip().lower() == "y":
+                selected.append("queue")
+        print("競合拡張は無効化一覧へ追加します。復元時にこのツールが追加した指定だけを戻します。")
     else:
         selected = []
     if action == "recover":
         print("中断した処理を直前の状態へ復元します。")
     else:
+        original_package = engine.package
         while True:
             try:
+                engine.package = original_package
+                if selected and workspace is not None:
+                    from fnm.bundle import prepare
+                    engine.package = prepare(engine, selected, Path(tempfile.mkdtemp(dir=workspace)))
                 plan = engine.plan(selected)
                 break
             except (ExtensionConflict, SettingsError) as exc:
                 print(str(exc))
-                print("\nForgeで実際に使用している設定JSONのパスを入力してください。Enterで中止。\n設定内容は変更しません。無効化済みの別設定を適当に選ばないでください。")
+                print("\nForgeで実際に使用している設定JSONのパスを入力してください。Enterで中止。\n対象Forgeの設定を指定してください。競合拡張の無効化指定だけを管理します。")
                 settings = input("> ").strip().strip('"')
                 if not settings:
                     return 2
@@ -50,8 +51,10 @@ def wizard(engine, action):
         for warning in plan["warnings"]:
             print("注意: " + warning)
         print(f"\n対象: {engine.root}\n変更するファイル: {len(plan['changes'])} 件")
-        for name in plan["changes"]:
+        for name in list(plan["changes"])[:20]:
             print("  " + name)
+        if len(plan["changes"]) > 20:
+            print(f"  ほか {len(plan['changes']) - 20} 件")
         if "queue" in selected:
             print("\nキューは任意機能です。本体4ファイルも変更します。設定のONはWebUIで手動操作してください。")
         if not plan["changes"] and state["components"] == selected:
@@ -93,7 +96,7 @@ def main(argv=None):
                 print(json.dumps(engine.state(), ensure_ascii=False, indent=2))
                 return 0
             if args.interactive:
-                return wizard(engine, args.action)
+                return wizard(engine, args.action, temporary)
             if args.action == "recover":
                 print(json.dumps({"recovered": engine.recover()}))
                 return 0
@@ -101,6 +104,9 @@ def main(argv=None):
                         else [c["id"] for c in package.components.values() if c.get("default")])
             if args.action == "uninstall":
                 selected = []
+            if selected:
+                from fnm.bundle import prepare
+                engine.package = prepare(engine, selected, Path(temporary) / "prepared")
             if args.action == "plan":
                 plan = engine.plan(selected)
                 print(json.dumps({"components": selected, "files": list(plan["changes"]), "warnings": plan["warnings"], "settings_file": plan["settings_file"]}, ensure_ascii=False, indent=2))

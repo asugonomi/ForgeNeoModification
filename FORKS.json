@@ -12,7 +12,7 @@
     },
     {
       "name": "Stable-Diffusion-Webui-Civitai-Helper-RED-UPDATE",
-      "commit": "808e397007081bee7c8af6eade71f2e948f1aa5d",
+      "commit": "8eafbcefa32408078ab044de9b6cf4536f932712",
       "branch": "master"
     },
     {
@@ -31,6 +31,13 @@
       "commit": "0d0cb166b63b6faf2e6aea29f2bcb5e70418a0fd",
       "branch": "forgeneo-modification",
       "upstream": "645f22f0d8ba5ad7f10f54aadcf292cf0499e9f8"
+    }
+  ],
+  "additional_extensions": [
+    {
+      "name": "anima-model-tools",
+      "commit": "f1aab379b651cc0b6ed091c2542131e75e457e0f",
+      "url": "https://github.com/asugonomi/anima-model-tools"
     }
   ]
 }

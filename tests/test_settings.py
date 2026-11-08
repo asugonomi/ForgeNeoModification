@@ -81,7 +81,7 @@ class SettingsTests(unittest.TestCase):
     def test_interactive_retry_uses_chosen_config_without_editing_it(self):
         target = self.config("actual.json", disabled_extensions=["other"])
         before = target.read_bytes()
-        with patch("builtins.input", side_effect=["", str(target), "y"]), patch("builtins.print"):
+        with patch("builtins.input", side_effect=[str(target), "y"]), patch("builtins.print"):
             self.assertEqual(wizard(self.engine, "install"), 0)
         self.assertEqual(target.read_bytes(), before)
         self.assertEqual(self.engine.state()["components"], ["test"])

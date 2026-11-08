@@ -14,9 +14,11 @@ This is an aggregate manager, not a blanket relicensing of its payloads. Changes
 | ADetailer Neo | https://github.com/abzaloff/aadetailer-neoforge | AGPL-3.0; original license retained |
 | Prompt All-in-One Neo | https://github.com/eduardoabreu81/sd-webui-prompt-all-in-one-neo | MIT, Physton / Neo maintainers |
 | Generation Queue | https://github.com/ukr8b3g-cmyk/Forge-Neo-Generation-Queue | MIT, Copyright (c) 2026 ukr8b3g-cmyk |
-| Civitai Helper model-name list | https://github.com/Replactionap/Stable-Diffusion-Webui-Civitai-Helper-RED-UPDATE | No root license file found at the pinned local commit. Only model-name list changes are included; no license is invented for the upstream project. |
+| Civitai Helper model-name list | https://github.com/Replactionap/Stable-Diffusion-Webui-Civitai-Helper-RED-UPDATE | No root license file found at the pinned local commit. The bundle contains model-name list changes and downloads pinned upstream source when absent; no license is invented for the upstream project. |
 | Fine Film Grain | Local standalone image postprocessor | MIT, asugonomi |
 
 The two additional autocomplete dictionaries are the user's public distribution data: Danbooru-style tag/category/count/alias data and Japanese translation data for Anima 2.9B. No usage-frequency DB, personal prompt history, API credentials, model files or model metadata are included. Code licenses do not claim ownership of the underlying tag names or third-party data. Data filenames, hashes and provenance notes are maintained in the autocomplete fork.
 
 The package preserves modified source in patches and source payloads, including the Vue source corresponding to the shipped PAIO bundle. The manager does not combine the noncommercial NeoMerger code into its MIT engine; that optional component remains separately identified.
+
+Anima Model Tools: https://github.com/asugonomi/anima-model-tools at f1aab379b651cc0b6ed091c2542131e75e457e0f. The downloaded source retains its license. EasyForgeNeo supported_models.py at 4fa851def666d0ba120179b2fd3752d661936c53 is used as a supported baseline, preserving its model names.

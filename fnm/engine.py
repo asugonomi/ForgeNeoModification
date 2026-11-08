@@ -121,6 +121,16 @@ class Package:
                     raise Conflict(f"Unchecked payload: {payload}")
 
     def transform(self, operation, before):
+        if operation.get("variants") and before is not None:
+            key = digest(canonical(before))
+            operation = next((dict(operation, **v, variants=[]) for v in operation["variants"] if v["before"] == key), operation)
+        if operation["kind"] == "disable_extensions":
+            config = json.loads((before or b"{}").decode("utf-8-sig"))
+            disabled = config.get("disabled_extensions", [])
+            if not isinstance(disabled, list) or not all(isinstance(x, str) for x in disabled):
+                raise Conflict("Invalid disabled_extensions setting")
+            config["disabled_extensions"] = disabled + [n for n in operation["names"] if n.casefold() not in {x.casefold() for x in disabled}]
+            return json_bytes(config)
         if operation["kind"] in ("add", "replace"):
             if operation["kind"] == "add" and before is not None:
                 raise Conflict(f"Existing unmanaged file: {operation['path']}")
@@ -260,6 +270,21 @@ class Engine:
         original, current = {}, {}
         for relative, entry in prior["files"].items():
             value = self.read(relative)
+            if "config_added" in entry and value is not None:
+                baseline = self.blob(entry["before"])
+                if digest(value) == entry["after"]:
+                    restored = baseline
+                else:
+                    config = json.loads(value.decode("utf-8-sig"))
+                    disabled = config.get("disabled_extensions", [])
+                    if not isinstance(disabled, list) or not all(isinstance(n, str) for n in disabled):
+                        raise Conflict("Invalid disabled_extensions setting")
+                    config["disabled_extensions"] = [n for n in disabled if n.casefold() not in {x.casefold() for x in entry["config_added"]}]
+                    if not config["disabled_extensions"] and "disabled_extensions" not in json.loads((baseline or b"{}").decode("utf-8-sig")):
+                        config.pop("disabled_extensions")
+                    restored = json_bytes(config)
+                current[relative], original[relative] = value, restored
+                continue
             if value is None or digest(value) != entry["after"]:
                 raise Conflict(f"Edited/missing managed file, retained: {relative}")
             current[relative] = value
@@ -352,6 +377,12 @@ class Engine:
                      "components": plan["selected"], "files": {}}
             for name, after in plan["desired"].items():
                 state["files"][name] = {"before": self.save_blob(plan["original"][name]), "after": digest(after)}
+            for component_id in selected:
+                for operation in self.package.components[component_id]["files"]:
+                    if operation["kind"] == "disable_extensions":
+                        name = operation["path"]
+                        old = json.loads((plan["original"][name] or b"{}").decode("utf-8-sig")).get("disabled_extensions", [])
+                        state["files"][name]["config_added"] = [n for n in operation["names"] if n.casefold() not in {x.casefold() for x in old}]
             journal = {"schema": 1, "prior": plan["prior"], "changes": []}
             for name, (before, after) in plan["changes"].items():
                 journal["changes"].append({"path": name, "before": self.save_blob(before), "after": self.save_blob(after)})

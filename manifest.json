@@ -1,9 +1,9 @@
 {
   "schema": 1,
-  "version": "0.1.2",
+  "version": "0.2.0",
   "forge": {
     "path": ".",
-    "commit": "7d6fd36c58a0e861640bcfe421e4f990921d7f2a",
+    "commit": "4f4284b02a5c814b81c328c64ed7e99a139f21ef",
     "url": "https://github.com/Haoming02/sd-webui-forge-classic"
   },
   "components": [
@@ -54,7 +54,7 @@
       "id": "anima-native",
       "label": "Anima Native Tools（互換性注意）",
       "license": "AGPL-3.0-or-later AND Apache-2.0",
-      "default": false,
+      "default": true,
       "files": [
         {
           "path": "extensions/anima-native-tools/scripts/anima_native.py",
@@ -96,7 +96,7 @@
       "id": "er-sde",
       "label": "ER SDE (ComfyUI) サンプラー",
       "license": "GPL-3.0",
-      "default": false,
+      "default": true,
       "files": [
         {
           "path": "extensions/sd-webui-er-sde-comfy/LICENSE",
@@ -167,7 +167,7 @@
       "id": "tagcomplete",
       "label": "Autocomplete 改良フォーク",
       "license": "MIT",
-      "default": false,
+      "default": true,
       "files": [
         {
           "path": "extensions/sd-webui-tagcomplete-neo/javascript/_utils.js",
@@ -419,7 +419,8 @@
         {
           "path": "extensions/sd-webui-tagcomplete-neo",
           "commit": "645f22f0d8ba5ad7f10f54aadcf292cf0499e9f8",
-          "url": "https://github.com/eduardoabreu81/sd-webui-tagcomplete-neo"
+          "url": "https://github.com/eduardoabreu81/sd-webui-tagcomplete-neo",
+          "archive_sha256": "2798b29e7fbc68e70cd586a33f36a72652d949ead8b100f2bae612058a454994"
         }
       ],
       "fork": "https://github.com/asugonomi/sd-webui-tagcomplete-neo",
@@ -433,7 +434,7 @@
       "id": "neomerger",
       "label": "NeoMerger モデル一覧修正（非商用）",
       "license": "CC-BY-NC-4.0",
-      "default": false,
+      "default": true,
       "files": [
         {
           "path": "extensions/NeoMerger/scripts/neomerger.py",
@@ -605,7 +606,8 @@
         {
           "path": "extensions/NeoMerger",
           "commit": "fc116dc4f34812a439d232cc96491867f8bcc4e7",
-          "url": "https://github.com/AkiumAI/NeoMerger"
+          "url": "https://github.com/AkiumAI/NeoMerger",
+          "archive_sha256": "df81cd5008edf0abecf4c55d6619ed5b484c1e50c38b70ae478c31cd10ac1d68"
         }
       ],
       "fork": "https://github.com/asugonomi/NeoMerger",
@@ -616,7 +618,7 @@
       "id": "adetailer",
       "label": "ADetailer のAnima設定引き継ぎ",
       "license": "AGPL-3.0",
-      "default": false,
+      "default": true,
       "files": [
         {
           "path": "extensions/aadetailer-neoforge/scripts/!adetailer.py",
@@ -643,7 +645,8 @@
         {
           "path": "extensions/aadetailer-neoforge",
           "commit": "c4c036d3b1f8bd3a298d6e64878d8338dbfe2597",
-          "url": "https://github.com/abzaloff/aadetailer-neoforge"
+          "url": "https://github.com/abzaloff/aadetailer-neoforge",
+          "archive_sha256": "79a300c7cedff7e531482b7bfd66b035928c64229b2e76df3cbfaa2bf6b000e4"
         }
       ],
       "fork": "https://github.com/asugonomi/aadetailer-neoforge",
@@ -657,7 +660,7 @@
       "id": "paio",
       "label": "Prompt All-in-One サムネイル・リンク改善",
       "license": "MIT",
-      "default": false,
+      "default": true,
       "files": [
         {
           "path": "extensions/sd-webui-prompt-all-in-one-neo/javascript/main.entry.js",
@@ -769,7 +772,8 @@
         {
           "path": "extensions/sd-webui-prompt-all-in-one-neo",
           "commit": "c46e279f87f912e5e4ede37bfaa8230fe0222f1d",
-          "url": "https://github.com/eduardoabreu81/sd-webui-prompt-all-in-one-neo"
+          "url": "https://github.com/eduardoabreu81/sd-webui-prompt-all-in-one-neo",
+          "archive_sha256": "0d71146cb8b35e695ee606d77f524c3638ba29ad7129e438c4ad59ef1a85d2ad"
         }
       ],
       "fork": "https://github.com/asugonomi/sd-webui-prompt-all-in-one-neo",
@@ -780,37 +784,37 @@
       "id": "civitai-models",
       "label": "Civitai Helper モデル一覧（任意）",
       "license": "NOASSERTION (upstream has no LICENSE; model-name list only)",
-      "default": false,
+      "default": true,
       "files": [
         {
           "path": "extensions/Stable-Diffusion-Webui-Civitai-Helper-RED-UPDATE/browser/supported_models.py",
           "kind": "patch",
           "before": "cf9df9b7c7a94804e721a33a0d38c1bc793dcb483c12d6438115f5911bed4ebd",
-          "after": "77f3fb3b46715539a20baa3307f7fe76e7a9c3a4cb1c20cadb3e0a4de9aba4bf",
+          "after": "2818ad54c17bf98c1ba065b182c3658f89a013e0e850bb2c5b844d7a4eff7285",
           "edits": [
             {
               "start": 21,
               "end": 101,
               "old": "    \"Aura Flow\",\n    \"CogVideoX\",\n    \"Flux\",\n    \"Flux .1 S\",\n    \"Flux .1 D\",\n",
-              "new": "    \"Anima\",\n    \"Boogu\",\n    \"Chroma\",\n    \"Ernie\",\n    \"Flux 1.0\",\n    \"Flux.1 D\",\n    \"Flux.1 Kontext\",\n    \"Flux.1 Krea\",\n    \"Flux.1 S\",\n    \"Flux.2 D\",\n    \"Flux.2 Klein 4B\",\n    \"Flux.2 Klein 4B-base\",\n    \"Flux.2 Klein 9B\",\n    \"Flux.2 Klein 9B-base\",\n    \"HiDream\",\n    \"HiDream-O1\",\n    \"Ideogram 4.0\",\n"
+              "new": "    \"Anima\",\n    \"Boogu\",\n    \"Chroma\",\n    \"Ernie\",\n    \"Flux 1.0\",\n    \"Flux.1 D\",\n    \"Flux.1 Kontext\",\n    \"Flux.1 Krea\",\n    \"Flux.1 S\",\n    \"Flux.2 D\",\n    \"Flux.2 Klein 4B\",\n    \"Flux.2 Klein 4B-base\",\n    \"Flux.2 Klein 9B\",\n    \"Flux.2 Klein 9B-base\",\n    \"Flux.3\",\n    \"Flux.3 Klein\",\n    \"Flux.3 Klein-base\",\n    \"HiDream\",\n    \"HiDream-O1\",\n    \"Ideogram 4.0\",\n"
             },
             {
               "start": 120,
               "end": 134,
               "old": "    \"Kolors\",\n",
-              "new": "    \"Illustrious 0.1\",\n    \"Krea 2\",\n    \"Krea2\",\n"
+              "new": "    \"Illustrious 0.1\",\n    \"Krea 2\",\n    \"Krea 2 Turbo\",\n    \"Krea 3\",\n    \"Krea2\",\n"
             },
             {
               "start": 146,
               "end": 146,
               "old": "",
-              "new": "    \"LTXV 2.3\",\n    \"LTXV2\",\n"
+              "new": "    \"LTXV 2.3\",\n    \"LTXV 2.5\",\n    \"LTXV2\",\n"
             },
             {
               "start": 160,
               "end": 173,
               "old": "    \"Mochi\",\n",
-              "new": "    \"NoobAI\",\n"
+              "new": "    \"MOSS Image\",\n    \"MiniMax H3\",\n    \"NoobAI\",\n"
             },
             {
               "start": 186,
@@ -822,7 +826,7 @@
               "start": 252,
               "end": 252,
               "old": "",
-              "new": "    \"Pony V7\",\n    \"Qwen\",\n"
+              "new": "    \"Pony V7\",\n    \"Qwen\",\n    \"Qwen 2.1\",\n"
             },
             {
               "start": 280,
@@ -842,6 +846,38 @@
               "old": "    \"SDXL Turbo\",\n    \"SVD\",\n    \"SVD XT\"\n",
               "new": "    \"Upscaler\",\n    \"Wan Video\",\n    \"Wan Video 1.3B t2v\",\n    \"Wan Video 14B i2v 480p\",\n    \"Wan Video 14B i2v 720p\",\n    \"Wan Video 14B t2v\",\n    \"Wan Video 2.2 I2V-A14B\",\n    \"Wan Video 2.2 T2V-A14B\",\n    \"Wan Video 2.2 TI2V-5B\",\n    \"Z-Image\",\n    \"ZImageBase\",\n    \"ZImageTurbo\"\n"
             }
+          ],
+          "variants": [
+            {
+              "before": "a3627393438f9e33b20a2914b0076f973455e4b9583977b6e693138d48c4fd93",
+              "after": "2818ad54c17bf98c1ba065b182c3658f89a013e0e850bb2c5b844d7a4eff7285",
+              "edits": [
+                {
+                  "start": 74,
+                  "end": 74,
+                  "old": "",
+                  "new": "    \"Flux 1.0\",\n"
+                },
+                {
+                  "start": 396,
+                  "end": 396,
+                  "old": "",
+                  "new": "    \"Illustrious 0.1\",\n"
+                },
+                {
+                  "start": 444,
+                  "end": 444,
+                  "old": "",
+                  "new": "    \"Krea2\",\n"
+                },
+                {
+                  "start": 1046,
+                  "end": 1046,
+                  "old": "",
+                  "new": "    \"Z-Image\",\n"
+                }
+              ]
+            }
           ]
         }
       ],
@@ -849,12 +885,28 @@
         {
           "path": "extensions/Stable-Diffusion-Webui-Civitai-Helper-RED-UPDATE",
           "commit": "2556ffd6b9032e66669e31433bd74090e7f5d1b4",
-          "url": "https://github.com/Replactionap/Stable-Diffusion-Webui-Civitai-Helper-RED-UPDATE"
+          "url": "https://github.com/Replactionap/Stable-Diffusion-Webui-Civitai-Helper-RED-UPDATE",
+          "archive_sha256": "131f57c19592d2e1eaac77c2b0d324a32edfe12b126bc9abb11470522e11ebe3"
         }
       ],
       "fork": "https://github.com/asugonomi/Stable-Diffusion-Webui-Civitai-Helper-RED-UPDATE",
-      "fork_commit": "808e397007081bee7c8af6eade71f2e948f1aa5d",
+      "fork_commit": "8eafbcefa32408078ab044de9b6cf4536f932712",
       "fork_branch": "master"
+    },
+    {
+      "id": "anima-model-tools",
+      "label": "Anima Model Tools（量子化・LoRA焼き込み・層移植）",
+      "license": "See upstream LICENSE",
+      "default": true,
+      "files": [],
+      "repositories": [
+        {
+          "path": "extensions/anima-model-tools",
+          "url": "https://github.com/asugonomi/anima-model-tools",
+          "commit": "f1aab379b651cc0b6ed091c2542131e75e457e0f",
+          "archive_sha256": "677af940e8b201c827716826b6359f1ea296ee5b7c0792b44c57bdeea42f0fce"
+        }
+      ]
     },
     {
       "id": "queue",
@@ -865,26 +917,52 @@
         {
           "path": "backend/args.py",
           "kind": "patch",
-          "before": "976b635db63348bdef74720bf1b358890277f757cdc75bb5ef3a98ff5b0fb2aa",
-          "after": "df167331c7fcb7d25308526fdf632551be58385ef4333f36b64b3e8cbb79e585",
+          "before": "b0a6071e71918a7c28a7888e59d83cd9dcc4b72edb6fca92a156fee0c7eca41d",
+          "after": "4117d6f776c6bb27fb95dd46f6ac9a303d25de55d290322f9f92d2c68b8bbc53",
           "edits": [
             {
-              "start": 7938,
-              "end": 7938,
+              "start": 7310,
+              "end": 7310,
               "old": "",
               "new": "from modules.queued_model_scope import selection as queued_selection\n\n\n"
             },
             {
-              "start": 7968,
-              "end": 7968,
+              "start": 7340,
+              "end": 7340,
               "old": "",
               "new": "    @property\n    def online_lora(cls):\n        scope = queued_selection.get()\n        return cls._online_lora if scope is None else scope[\"online_lora\"]\n\n    @online_lora.setter\n    def online_lora(cls, value):\n        scope = queued_selection.get()\n        if scope is None:\n            cls._online_lora = value\n        else:\n            scope[\"online_lora\"] = value\n\n"
             },
             {
-              "start": 8584,
-              "end": 8614,
+              "start": 7956,
+              "end": 7986,
               "old": "    online_lora: bool = False\n",
               "new": "    _online_lora: bool = False\n"
+            }
+          ],
+          "variants": [
+            {
+              "before": "976b635db63348bdef74720bf1b358890277f757cdc75bb5ef3a98ff5b0fb2aa",
+              "after": "df167331c7fcb7d25308526fdf632551be58385ef4333f36b64b3e8cbb79e585",
+              "edits": [
+                {
+                  "start": 7938,
+                  "end": 7938,
+                  "old": "",
+                  "new": "from modules.queued_model_scope import selection as queued_selection\n\n\n"
+                },
+                {
+                  "start": 7968,
+                  "end": 7968,
+                  "old": "",
+                  "new": "    @property\n    def online_lora(cls):\n        scope = queued_selection.get()\n        return cls._online_lora if scope is None else scope[\"online_lora\"]\n\n    @online_lora.setter\n    def online_lora(cls, value):\n        scope = queued_selection.get()\n        if scope is None:\n            cls._online_lora = value\n        else:\n            scope[\"online_lora\"] = value\n\n"
+                },
+                {
+                  "start": 8584,
+                  "end": 8614,
+                  "old": "    online_lora: bool = False\n",
+                  "new": "    _online_lora: bool = False\n"
+                }
+              ]
             }
           ]
         },
@@ -1081,5 +1159,10 @@
       "fork_commit": "6f875cfd64bb8bd8a1e5ef535a77cde2e36d3b5b",
       "fork_branch": "main"
     }
-  ]
+  ],
+  "tested_easyforge": {
+    "repository": "hirorohi03/EasyForgeNeo",
+    "commit": "4fa851def666d0ba120179b2fd3752d661936c53",
+    "date": "2026-11-08"
+  }
 }
