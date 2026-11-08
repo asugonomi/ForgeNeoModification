@@ -1,8 +1,10 @@
 """Download a commit-pinned manager package, without executing downloaded code."""
 import io
 import json
+import os
 from pathlib import Path
 import stat
+import subprocess
 import urllib.request
 import zipfile
 
@@ -13,6 +15,20 @@ LIMIT = 64 * 1024 * 1024
 
 
 def fetch(url):
+    # Windows' bundled curl uses the OS certificate store. This also supports
+    # Python environments whose OpenSSL CA bundle is absent, without -k or
+    # disabling TLS verification. Only HTTPS and bounded responses are allowed.
+    curl = os.path.join(os.environ.get("SystemRoot", "C:\\Windows"), "System32", "curl.exe")
+    if os.name == "nt" and os.path.isfile(curl):
+        result = subprocess.run([curl, "--fail", "--silent", "--show-error", "--location",
+            "--proto", "=https", "--proto-redir", "=https", "--max-time", "60",
+            "--max-filesize", str(LIMIT), "--user-agent", "ForgeNeoModification/0.1.0",
+            "--header", "Accept: application/vnd.github+json", url], capture_output=True, timeout=65)
+        if result.returncode:
+            raise Conflict("HTTPS download failed: " + result.stderr.decode("utf-8", errors="replace")[:500])
+        if len(result.stdout) > LIMIT:
+            raise Conflict("Download exceeds the 64 MiB limit")
+        return result.stdout
     request = urllib.request.Request(url, headers={"User-Agent": "ForgeNeoModification/0.1.0", "Accept": "application/vnd.github+json"})
     with urllib.request.urlopen(request, timeout=60) as response:
         data = response.read(LIMIT + 1)
