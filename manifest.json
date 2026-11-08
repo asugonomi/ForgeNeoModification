@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "version": "0.1.1",
+  "version": "0.1.2",
   "forge": {
     "path": ".",
     "commit": "7d6fd36c58a0e861640bcfe421e4f990921d7f2a",

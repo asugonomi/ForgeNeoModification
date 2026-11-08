@@ -5,7 +5,8 @@ from pathlib import Path
 import sys
 import tempfile
 
-from fnm.engine import Conflict, Engine, Package
+from fnm.engine import Conflict, Engine, Package, ExtensionConflict
+from fnm.settings import SettingsError
 
 
 def wizard(engine, action):
@@ -33,7 +34,19 @@ def wizard(engine, action):
     if action == "recover":
         print("中断した処理を直前の状態へ復元します。")
     else:
-        plan = engine.plan(selected)
+        while True:
+            try:
+                plan = engine.plan(selected)
+                break
+            except (ExtensionConflict, SettingsError) as exc:
+                print(str(exc))
+                print("\nForgeで実際に使用している設定JSONのパスを入力してください。Enterで中止。\n設定内容は変更しません。無効化済みの別設定を適当に選ばないでください。")
+                settings = input("> ").strip().strip('"')
+                if not settings:
+                    return 2
+                engine.settings_file = settings
+        if plan["settings_file"]:
+            print("参照した設定: " + plan["settings_file"])
         for warning in plan["warnings"]:
             print("注意: " + warning)
         print(f"\n対象: {engine.root}\n変更するファイル: {len(plan['changes'])} 件")
@@ -60,6 +73,7 @@ def main(argv=None):
     parser.add_argument("--package", type=Path, default=Path(__file__).resolve().parent)
     parser.add_argument("--components", help="Comma-separated component IDs (queue is never selected automatically)")
     parser.add_argument("--interactive", action="store_true")
+    parser.add_argument("--settings-file", type=Path, help="The settings JSON actually used by Forge (--ui-settings-file)")
     parser.add_argument("--online", action="store_true", help="Download the latest package from the fixed GitHub repository")
     args = parser.parse_args(argv)
     if hasattr(sys.stdout, "reconfigure"):
@@ -74,7 +88,7 @@ def main(argv=None):
                 print(f"Update package commit: {commit}")
             else:
                 package = Package(args.package)
-            engine = Engine(args.root, package)
+            engine = Engine(args.root, package, settings_file=args.settings_file)
             if args.action == "status":
                 print(json.dumps(engine.state(), ensure_ascii=False, indent=2))
                 return 0
@@ -89,11 +103,11 @@ def main(argv=None):
                 selected = []
             if args.action == "plan":
                 plan = engine.plan(selected)
-                print(json.dumps({"components": selected, "files": list(plan["changes"]), "warnings": plan["warnings"]}, ensure_ascii=False, indent=2))
+                print(json.dumps({"components": selected, "files": list(plan["changes"]), "warnings": plan["warnings"], "settings_file": plan["settings_file"]}, ensure_ascii=False, indent=2))
             else:
                 print(json.dumps(engine.apply(selected), ensure_ascii=False))
             return 0
-    except (Conflict, OSError, ValueError, KeyError, SyntaxError) as exc:
+    except (Conflict, SettingsError, OSError, ValueError, KeyError, SyntaxError) as exc:
         print(f"STOP / 変更を中止しました: {exc}", file=sys.stderr)
         return 2
 

@@ -10,11 +10,16 @@ from pathlib import Path, PurePosixPath
 import stat
 import subprocess
 import tempfile
+from fnm.settings import load_settings, SettingsError
 
 STATE_DIR = ".forgeneomodification"
 
 
 class Conflict(RuntimeError):
+    pass
+
+
+class ExtensionConflict(Conflict):
     pass
 
 
@@ -150,7 +155,8 @@ class Package:
 
 
 class Engine:
-    def __init__(self, root, package=None, process_probe=stopped_guard):
+    def __init__(self, root, package=None, process_probe=stopped_guard, settings_file=None):
+        self.settings_file = settings_file
         given = Path(root).absolute()
         if given.is_symlink() or (given.exists() and getattr(given.lstat(), "st_file_attributes", 0) & 0x400):
             raise Conflict("Select the real Forge directory, not a link")
@@ -267,9 +273,9 @@ class Engine:
             warning = self.verify_repo(self.package.manifest["forge"])
             if warning:
                 warnings.append(warning)
-        config = read_json(self.root / "config.json") if (self.root / "config.json").is_file() else {}
-        disabled = set(config.get("disabled_extensions", []))
-        disable_all = config.get("disable_all_extensions", "none") != "none"
+        settings_source, disabled, disable_mode = None, set(), "none"
+        if any(self.package.components.get(c, {}).get("conflicts") for c in component_ids):
+            settings_source, disabled, disable_mode = load_settings(self.root, self.settings_file)
         for component_id in component_ids:
             component = self.package.components.get(component_id)
             if not component:
@@ -278,8 +284,14 @@ class Engine:
                 if needed not in component_ids:
                     raise Conflict(f"{component_id} requires selected component: {needed}")
             for conflict in component.get("conflicts", []):
-                if not disable_all and conflict not in disabled and (self.root / "extensions" / conflict).is_dir():
-                    raise Conflict(f"Disable conflicting extension first: {conflict}")
+                for directory, builtin in (("extensions", False), ("extensions-builtin", True)):
+                    if disable_mode == "all" or (disable_mode == "extra" and not builtin) or conflict.casefold() in disabled:
+                        continue
+                    if (self.root / directory / conflict).is_dir():
+                        raise ExtensionConflict(
+                            f"Disable conflicting extension first: {conflict}\n"
+                            f"導入先: {self.root}\n参照した設定: {settings_source}\n"
+                            "この設定では拡張が無効になっていません。別の設定JSONで起動している場合は、そのファイルを指定してください。")
             for marker in component.get("forbid_markers", []):
                 source = self.read(marker["path"])
                 if source and marker["text"].encode() in source:
@@ -298,7 +310,7 @@ class Engine:
                 desired[relative] = self.package.transform(operation, original[relative])
         changes = {name: (current[name], desired.get(name, original[name])) for name in current
                    if current[name] != desired.get(name, original[name])}
-        return {"prior": prior, "selected": component_ids, "original": original, "desired": desired, "changes": changes, "warnings": warnings}
+        return {"prior": prior, "selected": component_ids, "original": original, "desired": desired, "changes": changes, "warnings": warnings, "settings_file": str(settings_source) if settings_source else None}
 
     def write_target(self, relative, content):
         path = path_in(self.root, relative)
