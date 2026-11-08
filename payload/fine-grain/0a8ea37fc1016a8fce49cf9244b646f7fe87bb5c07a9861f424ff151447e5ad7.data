@@ -1,0 +1,35 @@
+import gradio as gr
+import numpy as np
+from PIL import Image
+from modules import scripts
+
+
+class Script(scripts.Script):
+    def title(self):
+        return "Fine Film Grain"
+
+    def show(self, is_img2img):
+        return scripts.AlwaysVisible
+
+    def ui(self, is_img2img):
+        with gr.Accordion("Fine Film Grain", open=False):
+            enabled = gr.Checkbox(label="Enable fine monochrome grain", value=False)
+            strength = gr.Slider(0, 16, value=6, step=0.5, label="Grain strength")
+        return [enabled, strength]
+
+    def process(self, p, enabled, strength):
+        if enabled and strength:
+            p.extra_generation_params["Fine grain strength"] = strength
+
+    def postprocess_image(self, p, pp, enabled, strength):
+        if not enabled or not strength or pp.image.mode not in ("RGB", "RGBA"):
+            return
+        pixels = np.array(pp.image)
+        index = pp.index
+        seed = int(p.all_seeds[index % len(p.all_seeds)]) & 0xffffffff
+        rng = np.random.default_rng(seed)
+        grain = rng.normal(0, strength, pixels.shape[:2]).astype(np.float32)
+        pixels[..., :3] = np.clip(np.rint(pixels[..., :3] + grain[..., None]), 0, 255)
+        result = Image.fromarray(pixels)
+        result.info.update(pp.image.info)
+        pp.image = result

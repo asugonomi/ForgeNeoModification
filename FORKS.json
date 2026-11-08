@@ -1,0 +1,36 @@
+{
+  "date": "2026-11-08",
+  "forks": [
+    {
+      "name": "NeoMerger",
+      "commit": "e196c535fee2a9293554f6179eb5cef42159001a"
+    },
+    {
+      "name": "aadetailer-neoforge",
+      "commit": "6d7184a4df837c314e8e697d97c83d19a8508c7a",
+      "branch": "main"
+    },
+    {
+      "name": "Stable-Diffusion-Webui-Civitai-Helper-RED-UPDATE",
+      "commit": "808e397007081bee7c8af6eade71f2e948f1aa5d",
+      "branch": "master"
+    },
+    {
+      "name": "Forge-Neo-Generation-Queue",
+      "commit": "6f875cfd64bb8bd8a1e5ef535a77cde2e36d3b5b",
+      "branch": "main"
+    },
+    {
+      "name": "sd-webui-prompt-all-in-one-neo",
+      "commit": "bc49fca75ae34c20cc3fba6147ee7cbcbf3c990a",
+      "branch": "forgeneo-modification",
+      "upstream": "c46e279f87f912e5e4ede37bfaa8230fe0222f1d"
+    },
+    {
+      "name": "sd-webui-tagcomplete-neo",
+      "commit": "0d0cb166b63b6faf2e6aea29f2bcb5e70418a0fd",
+      "branch": "forgeneo-modification",
+      "upstream": "645f22f0d8ba5ad7f10f54aadcf292cf0499e9f8"
+    }
+  ]
+}

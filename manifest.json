@@ -1,0 +1,1085 @@
+{
+  "schema": 1,
+  "version": "0.1.0",
+  "forge": {
+    "path": ".",
+    "commit": "7d6fd36c58a0e861640bcfe421e4f990921d7f2a",
+    "url": "https://github.com/Haoming02/sd-webui-forge-classic"
+  },
+  "components": [
+    {
+      "id": "prompt-sync",
+      "label": "入力応答改善 / Responsive prompt input",
+      "license": "AGPL-3.0",
+      "default": true,
+      "files": [
+        {
+          "path": "extensions/forgeneo-responsive-input/javascript/prompt_sync.js",
+          "kind": "add",
+          "payload": "payload/prompt-sync/e80fd971cbf3024e1aecdc51a0cde2515c599ef6dff08794c7c406fb1e341bac.data",
+          "compressed": false,
+          "after": "e80fd971cbf3024e1aecdc51a0cde2515c599ef6dff08794c7c406fb1e341bac"
+        },
+        {
+          "path": "extensions/forgeneo-responsive-input/LICENSE",
+          "kind": "add",
+          "payload": "payload/prompt-sync/4ac4760f68a0d6b297f6b96e8e7e1306f52f55382f6847ee46b1ea334d494892.data",
+          "compressed": false,
+          "after": "f297a369c878e060916d38700ff1d40d2ab2046842483209ed357c870f81cfaa"
+        }
+      ],
+      "forbid_markers": [
+        {
+          "path": "javascript/ui.js",
+          "text": "window.forgePromptInputSync"
+        }
+      ]
+    },
+    {
+      "id": "fine-grain",
+      "label": "微細なフィルム粒状感 / Fine Film Grain",
+      "license": "MIT",
+      "default": true,
+      "files": [
+        {
+          "path": "extensions/fine-film-grain/scripts/fine_film_grain.py",
+          "kind": "add",
+          "payload": "payload/fine-grain/0a8ea37fc1016a8fce49cf9244b646f7fe87bb5c07a9861f424ff151447e5ad7.data",
+          "compressed": false,
+          "after": "a5cb422364fc707690311852fadba8741d640a6016493f661ce5ccfcd4dab91c"
+        }
+      ]
+    },
+    {
+      "id": "anima-native",
+      "label": "Anima Native Tools（互換性注意）",
+      "license": "AGPL-3.0-or-later AND Apache-2.0",
+      "default": false,
+      "files": [
+        {
+          "path": "extensions/anima-native-tools/scripts/anima_native.py",
+          "kind": "add",
+          "payload": "payload/anima-native/ac0b37ac74b09670014e85f4a5e24304de6874dce737be905e827e0849368105.data",
+          "compressed": false,
+          "after": "20d2c96ea9ee82b17a6796d137339996897a039903c1cf2fbeabbd092f32c33f"
+        },
+        {
+          "path": "extensions/anima-native-tools/LICENSE",
+          "kind": "add",
+          "payload": "payload/anima-native/4ac4760f68a0d6b297f6b96e8e7e1306f52f55382f6847ee46b1ea334d494892.data",
+          "compressed": false,
+          "after": "f297a369c878e060916d38700ff1d40d2ab2046842483209ed357c870f81cfaa"
+        },
+        {
+          "path": "extensions/anima-native-tools/LICENSE-TeaCache",
+          "kind": "add",
+          "payload": "payload/anima-native/3ddf9be5c28fe27dad143a5dc76eea25222ad1dd68934a047064e56ed2fa40c5.data",
+          "compressed": false,
+          "after": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+        },
+        {
+          "path": "extensions/anima-native-tools/NOTICE",
+          "kind": "add",
+          "payload": "payload/anima-native/e6420f5e30207a11f02020a1ba32fedd1268088d39d32a48c59399919b0c4bf4.data",
+          "compressed": false,
+          "after": "e6420f5e30207a11f02020a1ba32fedd1268088d39d32a48c59399919b0c4bf4"
+        }
+      ],
+      "conflicts": [
+        "forge-neo-Anima-HareSkip",
+        "sd-webui-forge-spectrum",
+        "sd_forge_spectrum",
+        "sd-webui-negpip"
+      ]
+    },
+    {
+      "id": "er-sde",
+      "label": "ER SDE (ComfyUI) サンプラー",
+      "license": "GPL-3.0",
+      "default": false,
+      "files": [
+        {
+          "path": "extensions/sd-webui-er-sde-comfy/LICENSE",
+          "kind": "add",
+          "payload": "payload/er-sde/3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986.data",
+          "compressed": false,
+          "after": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+        },
+        {
+          "path": "extensions/sd-webui-er-sde-comfy/README_ja.md",
+          "kind": "add",
+          "payload": "payload/er-sde/c2cea269c2b467ca9457d2efc1b6c885a64669644a85ca75f8164ea175296d57.data",
+          "compressed": false,
+          "after": "c2cea269c2b467ca9457d2efc1b6c885a64669644a85ca75f8164ea175296d57"
+        },
+        {
+          "path": "extensions/sd-webui-er-sde-comfy/UPSTREAM.json",
+          "kind": "add",
+          "payload": "payload/er-sde/9d1c8a6d35ed215deab2f16615b8bdbf35df9ac276273dda23b3b5b19c50618b.data",
+          "compressed": false,
+          "after": "aa2f6dbc23ad217c27562892f76e192393ede5ee1ad04cca88d125b40a2ded6d"
+        },
+        {
+          "path": "extensions/sd-webui-er-sde-comfy/er_sde_comfy/core.py",
+          "kind": "add",
+          "payload": "payload/er-sde/9acc010aff389dff90bd7f97aa8375cb11f5c98ae409e550769538c9c811b135.data",
+          "compressed": false,
+          "after": "7025ac1c4f7e81f35c1015a8d20fc5b93417ec06b64e032014d752fd5e980c62"
+        },
+        {
+          "path": "extensions/sd-webui-er-sde-comfy/er_sde_comfy/validation.py",
+          "kind": "add",
+          "payload": "payload/er-sde/856bce3b7917811692b9f727421a53ebed375f0d8811a2b6fec1a297483d7e27.data",
+          "compressed": false,
+          "after": "856bce3b7917811692b9f727421a53ebed375f0d8811a2b6fec1a297483d7e27"
+        },
+        {
+          "path": "extensions/sd-webui-er-sde-comfy/er_sde_comfy/__init__.py",
+          "kind": "add",
+          "payload": "payload/er-sde/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.data",
+          "compressed": false,
+          "after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "extensions/sd-webui-er-sde-comfy/scripts/er_sde_register.py",
+          "kind": "add",
+          "payload": "payload/er-sde/60254efc818154ef529d6d6956b7d2c10f9bfc41eddc7ab92f56a54f8b634561.data",
+          "compressed": false,
+          "after": "60254efc818154ef529d6d6956b7d2c10f9bfc41eddc7ab92f56a54f8b634561"
+        },
+        {
+          "path": "extensions/sd-webui-er-sde-comfy/tests/test_parity.py",
+          "kind": "add",
+          "payload": "payload/er-sde/a8ddd07bf978ec16d2ca8d337952f2703e5cd967674561b7da1177667c98a057.data",
+          "compressed": false,
+          "after": "7e67fc9423e17b12ec8b1bc5092b223901fd18cc982d0d68a3d470f8896e93c6"
+        },
+        {
+          "path": "extensions/sd-webui-er-sde-comfy/tests/upstream_reference.py",
+          "kind": "add",
+          "payload": "payload/er-sde/f15a6935b4d972b2500df26319cb4014362cf89d364698fca33cbf278ff34802.data",
+          "compressed": false,
+          "after": "57cb81a64f5e8af8df113a051648cce87b025e541bb55e73e0a891cd45080a2f"
+        }
+      ]
+    },
+    {
+      "id": "tagcomplete",
+      "label": "Autocomplete 改良フォーク",
+      "license": "MIT",
+      "default": false,
+      "files": [
+        {
+          "path": "extensions/sd-webui-tagcomplete-neo/javascript/_utils.js",
+          "after": "576e730789f8421d43a3ee268dd0ff7851c867980c7aa78f3f37e34e118e5f80",
+          "kind": "patch",
+          "before": "643200fb0bddbe649c8469f8da5dfd3f778ae548d604994e681f7a8ebdc9a88e",
+          "edits": [
+            {
+              "start": 8955,
+              "end": 9211,
+              "old": "    const rank = r => recentRank.get(usageKey(r)) ?? Number.MAX_SAFE_INTEGER;\n    results.forEach(r => { if (recentRank.has(usageKey(r))) r.usageBias = true; });\n\n    return results.sort((a, b) => (rank(a) - rank(b)) || (weights.get(b) - weights.get(a)));\n",
+              "new": "    // Avoid constructing tag-name keys inside every sort comparison.\n    if (!recentRank.size) return results.sort((a, b) => weights.get(b) - weights.get(a));\n    const ranks = new Map();\n    results.forEach(r => {\n        const rank = recentRank.get(usageKey(r));\n        ranks.set(r, rank ?? Number.MAX_SAFE_INTEGER);\n        if (rank !== undefined) r.usageBias = true;\n    });\n    return results.sort((a, b) => (ranks.get(a) - ranks.get(b)) || (weights.get(b) - weights.get(a)));\n"
+            }
+          ]
+        },
+        {
+          "path": "extensions/sd-webui-tagcomplete-neo/javascript/tagAutocomplete.js",
+          "after": "5a71c045fe67945840a93080716e30ffc2a43bc0915c114cf8985b068bc467c3",
+          "kind": "patch",
+          "before": "d8a9f85775b8fffe5b8c5558caed5e10f98a7b69981325c9b88a456fcb424baa",
+          "edits": [
+            {
+              "start": 0,
+              "end": 23,
+              "old": "﻿const styleColors = {\n",
+              "new": "const styleColors = {\n"
+            },
+            {
+              "start": 12676,
+              "end": 12676,
+              "old": "",
+              "new": "        window.tacFastSearch?.prepare(allTags, translations).catch(console.warn);\n"
+            },
+            {
+              "start": 15238,
+              "end": 15271,
+              "old": "function showResults(textArea) {\n",
+              "new": "function showResults(textArea, measureOnly = false) {\n    if (!measureOnly) window.tacPlus?.close();\n"
+            },
+            {
+              "start": 19195,
+              "end": 19195,
+              "old": "",
+              "new": "// A plain booru tag may contain spaces. Keep special prompt syntax on its own parser.\nfunction plainTagAtCaret(area) {\n    const value = area.value;\n    const caret = area.selectionStart;\n    const left = value.slice(0, caret).match(/[^,\\r\\n|]*$/)[0];\n    const right = value.slice(caret).match(/^[^,\\r\\n|]*/)[0];\n    const field = left + right;\n    if (/[<>()[\\]{}:*@$]/.test(field) || (TAC_CFG.wcWrap && field.includes(TAC_CFG.wcWrap)))\n        return null;\n    const query = left.trim();\n    if (!query) return null;\n    const start = caret - left.length + field.match(/^\\s*/)[0].length;\n    const end = caret + right.trimEnd().length;\n    return { start, end, query };\n}\n\n"
+            },
+            {
+              "start": 19381,
+              "end": 19381,
+              "old": "",
+              "new": "    if (result.type === ResultType.tag && window.tacPlus?.selectExisting(textArea, result.text)) return;\n"
+            },
+            {
+              "start": 24065,
+              "end": 24144,
+              "old": "    let afterInsertCursorPos = editStart + match.index + sanitizedText.length;\n",
+              "new": "    const plain = [ResultType.tag, ResultType.extra].includes(tagType) && plainTagAtCaret(textArea);\n    if (!plain && !match) return;\n    let afterInsertCursorPos = (plain ? plain.start : editStart + match.index) + sanitizedText.length;\n"
+            },
+            {
+              "start": 24451,
+              "end": 24554,
+              "old": "        let beforeComma = surrounding.match(new RegExp(`${escapeRegExp(tagword)}[,:]`, \"i\")) !== null;\n",
+              "new": "        let beforeComma = plain ? /^\\s*[,|\\r\\n]/.test(prompt.slice(plain.end)) : surrounding.match(new RegExp(`${escapeRegExp(tagword)}[,:]`, \"i\")) !== null;\n"
+            },
+            {
+              "start": 25428,
+              "end": 25487,
+              "old": "    sanitizedText = sanitizedText.replaceAll(\"$\", \"$$$$\");\n",
+              "new": "    if (!plain) sanitizedText = sanitizedText.replaceAll(\"$\", \"$$$$\");\n"
+            },
+            {
+              "start": 25555,
+              "end": 25635,
+              "old": "    let insert = surrounding.replace(match, sanitizedText + optionalSeparator);\n",
+              "new": "    let insert = plain ? sanitizedText + optionalSeparator : surrounding.replace(match, sanitizedText + optionalSeparator);\n"
+            },
+            {
+              "start": 25658,
+              "end": 25747,
+              "old": "    var newPrompt = prompt.substring(0, editStart) + insert + prompt.substring(editEnd);\n",
+              "new": "    var newPrompt = prompt.substring(0, plain ? plain.start : editStart) + insert + prompt.substring(plain ? plain.end : editEnd);\n"
+            },
+            {
+              "start": 33223,
+              "end": 33223,
+              "old": "",
+              "new": "        window.tacPlus?.decorate(li, textArea, result);\n"
+            },
+            {
+              "start": 34548,
+              "end": 34548,
+              "old": "",
+              "new": "            bestAlias ??= result.text;\n"
+            },
+            {
+              "start": 50531,
+              "end": 50531,
+              "old": "",
+              "new": "        window.tacFastSearch?.prepare(allTags, translations).catch(console.warn);\n"
+            },
+            {
+              "start": 50540,
+              "end": 50540,
+              "old": "",
+              "new": "let tacPlusSearchSerial = 0;\n"
+            },
+            {
+              "start": 50605,
+              "end": 50605,
+              "old": "",
+              "new": "    const plusSearchId = ++tacPlusSearchSerial;\n    window.tacFastSearch?.prepare(allTags, translations).catch(console.warn);\n"
+            },
+            {
+              "start": 51223,
+              "end": 51252,
+              "old": "    if (fixedTag === null) {\n",
+              "new": "    const plain = fixedTag === null && plainTagAtCaret(textArea);\n    if (plain) {\n        tagword = plain.query.replace(/ +/g, \"_\");\n    } else if (fixedTag === null) {\n"
+            },
+            {
+              "start": 53128,
+              "end": 53128,
+              "old": "",
+              "new": "    if (plusSearchId !== tacPlusSearchSerial) return;\n"
+            },
+            {
+              "start": 53947,
+              "end": 53947,
+              "old": "",
+              "new": "        const tagPattern = tagword.split(/[ _]+/).map(escapeRegExp).join('[ _]+');\n"
+            },
+            {
+              "start": 54139,
+              "end": 54223,
+              "old": "            searchRegex = new RegExp(`(^|[^a-zA-Z])${escapeRegExp(tagword)}`, 'i');\n",
+              "new": "            searchRegex = new RegExp(`(^|[^a-zA-Z])${tagPattern}`, 'i');\n"
+            },
+            {
+              "start": 56534,
+              "end": 56583,
+              "old": "        let filtered = tagsToSearch.filter(fil);\n",
+              "new": "        const kanaSearch = window.tacPlus?.kanaActive(tagword);\n        if (kanaSearch) { tagsToSearch = allTags; fil = window.tacPlus.kanaFilter(tagword); }\n        let filtered = null;\n        const workerSearch = window.tacFastSearch?.ready;\n        if (workerSearch) {\n            const limit = !TAC_CFG.showAllResults && !TAC_CFG.frequencySort ? TAC_CFG.maxResults : 0;\n            try { filtered = await window.tacFastSearch.search(tagsToSearch, searchRegex, tagword, kanaSearch, limit); }\n            catch(error) { console.warn('TAC worker search fallback', error); }\n            if (textArea.value !== prompt || plusSearchId !== tacPlusSearchSerial) return;\n        }\n        if (filtered === null) filtered = kanaSearch\n            ? await window.tacPlus.filterAsync(tagsToSearch, fil, textArea, prompt)\n            : tagsToSearch.filter(fil);\n        if (filtered === null || textArea.value !== prompt || plusSearchId !== tacPlusSearchSerial) return;\n"
+            },
+            {
+              "start": 56675,
+              "end": 56740,
+              "old": "        if (filtered.length === 0 && tagsToSearch !== allTags) {\n",
+              "new": "        if (!workerSearch && filtered.length === 0 && tagsToSearch !== allTags) {\n"
+            },
+            {
+              "start": 59995,
+              "end": 59995,
+              "old": "",
+              "new": "    const plusRenderResults = results, plusRenderTag = tagword;\n"
+            },
+            {
+              "start": 60029,
+              "end": 60089,
+              "old": "        addResultsToList(textArea, results, tagword, true);\n",
+              "new": "        if (plusSearchId !== tacPlusSearchSerial || (textArea.value !== prompt && fixedTag === null)) return;\n        addResultsToList(textArea, plusRenderResults, plusRenderTag, true);\n"
+            },
+            {
+              "start": 66260,
+              "end": 66379,
+              "old": "        const debouncedAutocomplete = debounce(() => autocomplete(area, area.value), Math.min(TAC_CFG.delayTime, 50));\n",
+              "new": "        let searchTimer;\n        const scheduleSearch = delay => {\n            clearTimeout(searchTimer);\n            searchTimer = setTimeout(() => {\n                if (area === area.getRootNode().activeElement || area === document.activeElement)\n                    autocomplete(area, area.value);\n            }, delay);\n        };\n"
+            },
+            {
+              "start": 66510,
+              "end": 66564,
+              "old": "        area.addEventListener('input', async (e) => {\n",
+              "new": "        const onAutocompleteInput = async (e) => {\n            if (e.tacFastHandled) return;\n            const fast = e.type === 'tac-fast-input';\n            if (fast) e = e.detail;\n"
+            },
+            {
+              "start": 67123,
+              "end": 67342,
+              "old": "            // Block hide we are composing (IME), so enter doesn't close the results\n            if (e.isComposing) {\n                hideBlocked = true;\n                setTimeout(() => { hideBlocked = false; }, 100);\n",
+              "new": "            clearTimeout(searchTimer);\n            if (e.isComposing) return;\n            const isDelete = e.inputType?.startsWith(\"delete\");\n            if (isDelete) {\n                if (resultsDiv.style.display !== \"none\") hideResults(area);\n                if (area.value.trim()) scheduleSearch(fast ? 35 : Math.max(300, TAC_CFG.delayTime));\n                else previousTags = [];\n            } else {\n                debouncedUpdateRuby();\n                if (isSelfTrigger) await autocomplete(area, area.value);\n                else scheduleSearch(fast ? 35 : Math.min(TAC_CFG.delayTime, 50));\n"
+            },
+            {
+              "start": 67356,
+              "end": 68017,
+              "old": "\n            const isDelete = e.inputType === 'deleteContentBackward' || e.inputType === 'deleteContentForward';\n\n            // Skip heavy translation update on delete to prevent lag.\n            // Run autocomplete immediately on delete (no debounce) so the dropdown\n            // stays perfectly in sync while backspacing; the indexed search is fast\n            // enough that this doesn't cause noticeable lag on modern devices.\n            if (!isDelete)\n                debouncedUpdateRuby();\n            if (isDelete || isSelfTrigger)\n                await autocomplete(area, area.value);\n            else\n                await debouncedAutocomplete();\n",
+              "new": ""
+            },
+            {
+              "start": 68065,
+              "end": 68077,
+              "old": "        });\n",
+              "new": "        };\n        area.addEventListener('input', onAutocompleteInput);\n        area.addEventListener('tac-fast-input', onAutocompleteInput);\n"
+            },
+            {
+              "start": 68604,
+              "end": 68604,
+              "old": "",
+              "new": "            scheduleSearch(Math.min(TAC_CFG.delayTime, 50));\n"
+            }
+          ]
+        },
+        {
+          "path": "extensions/sd-webui-tagcomplete-neo/javascript/tac_plus.js",
+          "after": "327c8f873c34448f1ad624dbc93853fd0fa4ecc215c715e10ae44153a0b7decd",
+          "kind": "add",
+          "payload": "payload/tagcomplete/327c8f873c34448f1ad624dbc93853fd0fa4ecc215c715e10ae44153a0b7decd.data",
+          "compressed": false
+        },
+        {
+          "path": "extensions/sd-webui-tagcomplete-neo/scripts/tac_plus.py",
+          "after": "825382ffb5287e4d82a9af2c4ef3af6279e28a87d85e28302332523a8152364f",
+          "kind": "add",
+          "payload": "payload/tagcomplete/825382ffb5287e4d82a9af2c4ef3af6279e28a87d85e28302332523a8152364f.data",
+          "compressed": false
+        },
+        {
+          "path": "extensions/sd-webui-tagcomplete-neo/plus_data/LICENSE.Autocomplete-Plus",
+          "after": "7971c7d955c6cee1ea75ae80a95c70cb26e189f84b5acd59755e91d7daf71084",
+          "kind": "add",
+          "payload": "payload/tagcomplete/7971c7d955c6cee1ea75ae80a95c70cb26e189f84b5acd59755e91d7daf71084.data",
+          "compressed": false
+        },
+        {
+          "path": "extensions/sd-webui-tagcomplete-neo/tags/danbooru_20260731.csv",
+          "after": "2f2e8488613335c373126e92248b0036092099f43c3cd542143ac0b72bba4864",
+          "kind": "add",
+          "payload": "payload/tagcomplete/e0f4f0de3fc1de34976ddadebe43b1e1c3e490bb2508ea339e0db83a234f2cfc.gz",
+          "compressed": true
+        },
+        {
+          "path": "extensions/sd-webui-tagcomplete-neo/tags/danbooru_translations_jp_anima29.csv",
+          "after": "136a906c7f5ccc89be95600538fb0935dbdd58acfced9d0a59d7de77fa54472d",
+          "kind": "add",
+          "payload": "payload/tagcomplete/120f200d952c1200227c724f5e146382c6720904d80969c209d29b4489dbc859.gz",
+          "compressed": true
+        },
+        {
+          "path": "extensions/sd-webui-tagcomplete-neo/tools/build_related_index.py",
+          "after": "f3d89cfdb9f4d01595574f5b3512cf807e02d4faaf3cdaed097a1c3551ed3abf",
+          "kind": "add",
+          "payload": "payload/tagcomplete/f3d89cfdb9f4d01595574f5b3512cf807e02d4faaf3cdaed097a1c3551ed3abf.data",
+          "compressed": false
+        },
+        {
+          "path": "extensions/sd-webui-tagcomplete-neo/DICTIONARIES.json",
+          "after": "c660f794db17ba51fa17492dbe6124d546baceb6b503b0655a188f626d64f42c",
+          "kind": "add",
+          "payload": "payload/tagcomplete/c660f794db17ba51fa17492dbe6124d546baceb6b503b0655a188f626d64f42c.data",
+          "compressed": false
+        }
+      ],
+      "repositories": [
+        {
+          "path": "extensions/sd-webui-tagcomplete-neo",
+          "commit": "645f22f0d8ba5ad7f10f54aadcf292cf0499e9f8",
+          "url": "https://github.com/eduardoabreu81/sd-webui-tagcomplete-neo"
+        }
+      ],
+      "fork": "https://github.com/asugonomi/sd-webui-tagcomplete-neo",
+      "conflicts": [
+        "TagComplete-Neo-Multi-CSV"
+      ],
+      "fork_commit": "0d0cb166b63b6faf2e6aea29f2bcb5e70418a0fd",
+      "fork_branch": "forgeneo-modification"
+    },
+    {
+      "id": "neomerger",
+      "label": "NeoMerger モデル一覧修正（非商用）",
+      "license": "CC-BY-NC-4.0",
+      "default": false,
+      "files": [
+        {
+          "path": "extensions/NeoMerger/scripts/neomerger.py",
+          "kind": "patch",
+          "before": "0d3ac49e4e8af3c0a9321b968672ba2924df93ad49d65a8f57a068f8defedbb4",
+          "after": "89b1c009b7b263d26746d66e57dd1a46e769949bfafa012b0e83a2820c3638ee",
+          "edits": [
+            {
+              "start": 2072,
+              "end": 2072,
+              "old": "",
+              "new": "# Load by filename: extension script directories are not consistently on sys.path.\nimport importlib.util as _import_util\nimport sys as _sys\n_catalog_spec = _import_util.spec_from_file_location(\n    \"neomerger_catalog\", os.path.join(os.path.dirname(__file__), \"neomerger_catalog.py\"))\n_catalog_module = _import_util.module_from_spec(_catalog_spec)\n_catalog_spec.loader.exec_module(_catalog_module)\n\n\ndef _search_roots(kind):\n    opts = getattr(shared, \"cmd_opts\", None)\n    names = (\"ckpt_dirs\", \"ckpt_dir\") if kind == \"checkpoint\" else (\"lora_dirs\", \"lora_dir\")\n    roots = []\n    for name in names:\n        value = getattr(opts, name, None)\n        roots.extend([value] if isinstance(value, str) else (value or []))\n    roots.append(getattr(sd_models, \"model_path\", None) or os.path.join(models_path, \"Stable-diffusion\")\n                 if kind == \"checkpoint\" else os.path.join(models_path, \"Lora\"))\n    return list(dict.fromkeys(roots))\n\n\ndef _registered_loras():\n    module = _sys.modules.get(\"networks\")\n    return getattr(module, \"available_networks\", {}).values()\n\n\n_model_catalog = _catalog_module.Catalog(\n    lambda: _search_roots(\"checkpoint\"),\n    lambda: getattr(sd_models, \"checkpoints_list\", {}).values(),\n    {\".safetensors\", \".ckpt\"}, \"checkpoint\")\n_lora_catalog = _catalog_module.Catalog(\n    lambda: _search_roots(\"lora\"), _registered_loras,\n    {\".safetensors\", \".ckpt\", \".pt\"}, \"lora\")\n\n\n"
+            },
+            {
+              "start": 2094,
+              "end": 2267,
+              "old": "    d = get_ckpt_dir()\n    out = []\n    for ext in [\"*.safetensors\", \"*.ckpt\"]:\n        out += [os.path.basename(str(p)) for p in Path(d).rglob(ext)]\n    return sorted(out)\n",
+              "new": "    return _model_catalog.choices()\n\n"
+            },
+            {
+              "start": 2289,
+              "end": 2470,
+              "old": "    d = get_lora_dir()\n    out = []\n    for ext in [\"*.safetensors\", \"*.pt\", \"*.ckpt\"]:\n        out += [os.path.basename(str(p)) for p in Path(d).rglob(ext)]\n    return sorted(out)\n",
+              "new": "    return _lora_catalog.choices()\n\n"
+            },
+            {
+              "start": 2522,
+              "end": 2679,
+              "old": "    for root, _, files in os.walk(directory):\n        for f in files:\n            if f == name:\n                return os.path.join(root, f)\n    return name\n",
+              "new": "    catalog = _catalog_module.Catalog(lambda: [directory], lambda: [],\n                                      {\".safetensors\", \".ckpt\", \".pt\"}, \"file\")\n    return catalog.resolve(name)\n"
+            },
+            {
+              "start": 2680,
+              "end": 2806,
+              "old": "def find_model(name): return find_in_dir(name, get_ckpt_dir())\ndef find_lora(name):  return find_in_dir(name, get_lora_dir())\n",
+              "new": "\ndef _resolve_catalog(catalog, name):\n    try:\n        return catalog.resolve(name)\n    except ValueError as exc:\n        raise gr.Error(str(exc)) from exc\n\n\ndef find_model(name):\n    return _resolve_catalog(_model_catalog, name)\n\n\ndef find_lora(name):\n    return _resolve_catalog(_lora_catalog, name)\n\n\ndef _assert_distinct_output(output_path, inputs):\n    for source in inputs:\n        if source and _catalog_module.same_file(output_path, source):\n            raise ValueError(f\"Output is an input model: {output_path}\")\n    if os.path.lexists(output_path) and (\n            os.path.islink(output_path) or\n            _catalog_module.canonical(output_path) != os.path.normcase(os.path.abspath(output_path))):\n        raise ValueError(f\"Refusing to overwrite an existing file through a link: {output_path}\")\n\n\ndef _refresh_selections(kinds, values):\n    # Keep identities as well as labels: a retargeted link must not silently select a new file.\n    previous = []\n    for kind, value in zip(kinds, values):\n        cat = _lora_catalog if kind == \"lora\" or (kind == \"mixed\" and str(value).startswith(\"[LoRA] \")) else _model_catalog\n        clean = value[7:] if kind == \"mixed\" and str(value).startswith(\"[LoRA] \") else value\n        try:\n            token = cat.select(clean)\n            previous.append((cat, token, cat.entries[token][1:]))\n        except ValueError:\n            previous.append((cat, None, None))\n    _model_catalog.refresh()\n    _lora_catalog.refresh()\n    updates = []\n    for kind, value, (cat, token, old_identity) in zip(kinds, values, previous):\n        choices = (get_model_list() + [\"[LoRA] \" + x for x in get_lora_list()] if kind == \"mixed\"\n                   else get_lora_list() if kind == \"lora\" else get_model_list())\n        if kind == \"optional\":\n            choices = [\"\"] + choices\n        selected = None\n        if token in cat.entries and cat.entries[token][1:] == old_identity:\n            selected = (\"[LoRA] \" if kind == \"mixed\" and cat is _lora_catalog else \"\") + token\n        elif value:\n            gr.Warning(f\"Model removed or link changed: {value}. Select it again.\")\n        updates.append(gr.update(choices=choices, value=selected))\n    return updates\n"
+            },
+            {
+              "start": 5982,
+              "end": 6036,
+              "old": "        return os.path.normcase(os.path.abspath(pth))\n",
+              "new": "        return _catalog_module.canonical(pth)\n"
+            },
+            {
+              "start": 6181,
+              "end": 6241,
+              "old": "        return (not overwrite) or (_norm(pth) in protected)\n",
+              "new": "        return (not overwrite) or os.path.islink(pth) or (\n            _norm(pth) != os.path.normcase(os.path.abspath(pth))) or (_norm(pth) in protected) or any(\n            _catalog_module.same_file(pth, source) for source in (inputs or ()) if source)\n"
+            },
+            {
+              "start": 99341,
+              "end": 99341,
+              "old": "",
+              "new": "    _assert_distinct_output(output_path, [path_a, *(path_b if isinstance(path_b, (list, tuple)) else [path_b]), path_c, vae_path])\n"
+            },
+            {
+              "start": 133847,
+              "end": 133847,
+              "old": "",
+              "new": "    _assert_distinct_output(output_path, [ckpt_path, lora_path, vae_path, find_model(lora_ref_model) if lora_ref_model else None])\n"
+            },
+            {
+              "start": 136185,
+              "end": 136254,
+              "old": "            _ref_path = find_model(lora_ref_model) or lora_ref_model\n",
+              "new": "            _ref_path = find_model(lora_ref_model)\n"
+            },
+            {
+              "start": 164781,
+              "end": 164781,
+              "old": "",
+              "new": "    _assert_distinct_output(output_path, [path_a, path_b])\n"
+            },
+            {
+              "start": 172537,
+              "end": 172537,
+              "old": "",
+              "new": "    _assert_distinct_output(output_path, [path_ft, path_base])\n"
+            },
+            {
+              "start": 199499,
+              "end": 199861,
+              "old": "                            bm_refresh.click(\n                                fn=lambda: [gr.update(choices=get_model_list())]\n                                           * (3 + EXTRA_DONOR_SLOTS),\n                                outputs=[bm_model_a, bm_model_b, bm_model_c]\n                                        + bm_extra_models\n                            )\n",
+              "new": "                            # Refresh is bound to all model selectors below.\n"
+            },
+            {
+              "start": 291304,
+              "end": 291745,
+              "old": "                                    bi_refresh.click(\n                                        fn=lambda: [gr.update(choices=get_model_list()),\n                                                    gr.update(choices=get_lora_list()),\n                                                    gr.update(choices=[\"\"] + get_model_list())],\n                                        outputs=[bi_ckpt, bi_lora, bi_ref]\n                                    )\n",
+              "new": "                                    # Refresh is bound to all model selectors below.\n"
+            },
+            {
+              "start": 308006,
+              "end": 308262,
+              "old": "                                    lm_refresh.click(\n                                        fn=lambda: [gr.update(choices=get_lora_list())] * 2,\n                                        outputs=[lm_lora_a, lm_lora_b]\n                                    )\n",
+              "new": "                                    # Refresh is bound to all model selectors below.\n"
+            },
+            {
+              "start": 314101,
+              "end": 314364,
+              "old": "                                    ex_refresh.click(\n                                        fn=lambda: [gr.update(choices=get_model_list())] * 2,\n                                        outputs=[ex_model_ft, ex_model_base]\n                                    )\n",
+              "new": "                                    # Refresh is bound to all model selectors below.\n"
+            },
+            {
+              "start": 322663,
+              "end": 322984,
+              "old": "                            ins_refresh.click(\n                                fn=lambda: gr.update(\n                                    choices=get_model_list() + [f\"[LoRA] {l}\" for l in get_lora_list()]\n                                ),\n                                outputs=[ins_file]\n                            )\n",
+              "new": "                            # Refresh is bound to all model selectors below.\n"
+            },
+            {
+              "start": 341678,
+              "end": 341983,
+              "old": "                        ins_clear_ref.click(\n                            fn=lambda: gr.update(\n                                choices=get_model_list() + [f\"[LoRA] {l}\" for l in get_lora_list()]\n                            ),\n                            outputs=[ins_clear_file]\n                        )\n",
+              "new": "                        # Refresh is bound to all model selectors below.\n                    ins_clear_preview = gr.Button(\"Preview actual file path\")\n                    ins_clear_path = gr.Textbox(label=\"Confirmed actual file to overwrite\", interactive=False)\n                    ins_clear_confirmed = gr.State(None)\n"
+            },
+            {
+              "start": 342235,
+              "end": 342280,
+              "old": "                def do_clear_metadata(name):\n",
+              "new": "                def _clear_preview(name):\n                    if not name:\n                        return \"\", None\n                    path = find_lora(name[7:]) if name.startswith(\"[LoRA] \") else find_model(name)\n                    stamp = os.stat(path)\n                    return path, (name, path, stamp.st_dev, stamp.st_ino, stamp.st_size, stamp.st_mtime_ns)\n\n                def do_clear_metadata(name, confirmed_path, confirmed):\n"
+            },
+            {
+              "start": 342823,
+              "end": 342874,
+              "old": "                    tmp_path = path + \".tmp_clear\"\n",
+              "new": "                    stamp = os.stat(path)\n                    current = (name, path, stamp.st_dev, stamp.st_ino, stamp.st_size, stamp.st_mtime_ns)\n                    if not confirmed or tuple(confirmed) != current or confirmed_path != path:\n                        return \"❌ Preview the actual file path again before clearing metadata.\", 0.0\n                    import tempfile\n                    fd, tmp_path = tempfile.mkstemp(prefix=\".neomerger-clear-\", suffix=\".tmp\", dir=os.path.dirname(path))\n                    os.close(fd)\n"
+            },
+            {
+              "start": 343398,
+              "end": 343398,
+              "old": "",
+              "new": "                        stamp = os.stat(path)\n                        if (name, path, stamp.st_dev, stamp.st_ino, stamp.st_size, stamp.st_mtime_ns) != current:\n                            raise ValueError(\"File changed after confirmation; cancelled\")\n"
+            },
+            {
+              "start": 343901,
+              "end": 343901,
+              "old": "",
+              "new": "                ins_clear_preview.click(_clear_preview, inputs=[ins_clear_file],\n                                        outputs=[ins_clear_path, ins_clear_confirmed])\n"
+            },
+            {
+              "start": 343980,
+              "end": 344025,
+              "old": "                    inputs=[ins_clear_file],\n",
+              "new": "                    inputs=[ins_clear_file, ins_clear_path, ins_clear_confirmed],\n"
+            },
+            {
+              "start": 350765,
+              "end": 350898,
+              "old": "                pr_refresh.click(lambda: gr.update(choices=get_model_list()),\n                                 outputs=[pr_model_b])\n",
+              "new": "                # Refresh is bound to all model selectors below.\n"
+            },
+            {
+              "start": 351289,
+              "end": 351289,
+              "old": "",
+              "new": "    with ui:\n        with gr.Accordion(\"Resolved model paths (read-only)\", open=False):\n            _path_a = gr.Textbox(label=\"Model A actual file\", interactive=False)\n            _path_b = gr.Textbox(label=\"Model B actual file\", interactive=False)\n        bm_model_a.change(lambda value: find_model(value) if value else \"\", inputs=[bm_model_a], outputs=[_path_a])\n        bm_model_b.change(lambda value: find_model(value) if value else \"\", inputs=[bm_model_b], outputs=[_path_b])\n        _selectors = ([bm_model_a, bm_model_b, bm_model_c] + bm_extra_models\n                      + [bi_ckpt, bi_lora, bi_ref, lm_lora_a, lm_lora_b,\n                         ex_model_ft, ex_model_base, ins_file, ins_clear_file, pr_model_b])\n        _kinds = ([\"checkpoint\"] * (3 + EXTRA_DONOR_SLOTS)\n                  + [\"checkpoint\", \"lora\", \"optional\", \"lora\", \"lora\",\n                     \"checkpoint\", \"checkpoint\", \"mixed\", \"mixed\", \"checkpoint\"])\n        for button in (bm_refresh, bi_refresh, lm_refresh, ex_refresh,\n                       ins_refresh, ins_clear_ref, pr_refresh):\n            button.click(lambda *values: _refresh_selections(_kinds, values),\n                         inputs=_selectors, outputs=_selectors)\n\n"
+            }
+          ]
+        },
+        {
+          "path": "extensions/NeoMerger/scripts/neomerger_catalog.py",
+          "kind": "add",
+          "payload": "payload/neomerger/02ac3046c87ed801c9da776438051e648f5cea7a0e62bc2be14b7a90c46cfd81.data",
+          "compressed": false,
+          "after": "cc8acbcb607317737650b3ee3555f5dc5646993029afc7bd433174cd0e9a3d96"
+        }
+      ],
+      "repositories": [
+        {
+          "path": "extensions/NeoMerger",
+          "commit": "fc116dc4f34812a439d232cc96491867f8bcc4e7",
+          "url": "https://github.com/AkiumAI/NeoMerger"
+        }
+      ],
+      "fork": "https://github.com/asugonomi/NeoMerger",
+      "fork_commit": "e196c535fee2a9293554f6179eb5cef42159001a",
+      "fork_branch": "main"
+    },
+    {
+      "id": "adetailer",
+      "label": "ADetailer のAnima設定引き継ぎ",
+      "license": "AGPL-3.0",
+      "default": false,
+      "files": [
+        {
+          "path": "extensions/aadetailer-neoforge/scripts/!adetailer.py",
+          "kind": "patch",
+          "before": "c6a2522f9a5e35e5efa3c7550033f58b34b6b9288b32204fe17374935200feb6",
+          "after": "abd8909ed3711ad5fe57a6c565695551cfd59dc7520229c91217e4765337c3a7",
+          "edits": [
+            {
+              "start": 20155,
+              "end": 20155,
+              "old": "",
+              "new": "        # Anima Native Tools implements signed prompt weights as well as sampling.\n        # Keep its original script arguments during the nested face pass.\n        if type(p.sd_model).__name__ == \"Anima\":\n            ad_script_names.append(\"anima_native\")\n"
+            },
+            {
+              "start": 22049,
+              "end": 22049,
+              "old": "",
+              "new": "        if hasattr(p, \"distilled_cfg_scale\"):\n            version_args[\"distilled_cfg_scale\"] = p.distilled_cfg_scale\n"
+            }
+          ]
+        }
+      ],
+      "repositories": [
+        {
+          "path": "extensions/aadetailer-neoforge",
+          "commit": "c4c036d3b1f8bd3a298d6e64878d8338dbfe2597",
+          "url": "https://github.com/abzaloff/aadetailer-neoforge"
+        }
+      ],
+      "fork": "https://github.com/asugonomi/aadetailer-neoforge",
+      "requires": [
+        "anima-native"
+      ],
+      "fork_commit": "6d7184a4df837c314e8e697d97c83d19a8508c7a",
+      "fork_branch": "main"
+    },
+    {
+      "id": "paio",
+      "label": "Prompt All-in-One サムネイル・リンク改善",
+      "license": "MIT",
+      "default": false,
+      "files": [
+        {
+          "path": "extensions/sd-webui-prompt-all-in-one-neo/javascript/main.entry.js",
+          "after": "ed02125d0f62fc8e90c1bd90d6845d6a280e47ebda1269491a31972d35bf6092",
+          "kind": "replace",
+          "payload": "payload/paio/ed02125d0f62fc8e90c1bd90d6845d6a280e47ebda1269491a31972d35bf6092.gz",
+          "compressed": true,
+          "before": "1a6f4ada03eea0a95aed0ea3ad919e0c54032f413a93f4fa1046067566174b66"
+        },
+        {
+          "path": "extensions/sd-webui-prompt-all-in-one-neo/scripts/on_app_started.py",
+          "after": "2e5654626a752b4c96b86cef1c24b6709b717bee3335add6038f878468f351c9",
+          "kind": "patch",
+          "before": "be040586965e084ad086947360d15d9bae8ff6f7e3186a041b567e9f2401aea9",
+          "edits": [
+            {
+              "start": 21703,
+              "end": 21703,
+              "old": "",
+              "new": "            'paio_neo_popup_domain',\n            shared.OptionInfo(\n                'civitai.red',\n                'ポップアップから開くCivitaiのドメイン',\n                gr.Radio,\n                {'choices': ['civitai.red', 'civitai.com']},\n                section=section,\n            ),\n        )\n\n        shared.opts.add_option(\n"
+            }
+          ]
+        },
+        {
+          "path": "extensions/sd-webui-prompt-all-in-one-neo/src/src/components/extraNetworksPopup.vue",
+          "after": "6e23b62786b1193e88a21f445aa144ec41fac3a20868a8662cdc6b2b92aa9c6e",
+          "kind": "patch",
+          "before": "4ba54c30ec7552be968263d0707428edea96e70fdd07786059a872b238bae98e",
+          "edits": [
+            {
+              "start": 8811,
+              "end": 8872,
+              "old": "            return globals.civitaiUrl + '/models/' + modelId\n",
+              "new": "            const host = typeof opts !== 'undefined' && opts.paio_neo_popup_domain === 'civitai.com' ? 'civitai.com' : 'civitai.red'\n            return 'https://' + host + '/models/' + modelId\n"
+            }
+          ]
+        },
+        {
+          "path": "extensions/sd-webui-prompt-all-in-one-neo/src/src/components/phystonPrompt.vue",
+          "after": "0496c67c780cdac42b78af19938cbd67405d2a2eb1bb02c79ddb2d86e3119795",
+          "kind": "patch",
+          "before": "2b624a410efdc5b5be712bd8b5a9180d457778de39e59e1e6e0f93ef776669ed",
+          "edits": [
+            {
+              "start": 36443,
+              "end": 36581,
+              "old": "                                                     :src=\"extraData.thumbnail || extraData.preview || './file=html/card-no-preview.png'\"\n",
+              "new": "                                                     :src=\"networkCardThumbnail(extraData)\"\n"
+            },
+            {
+              "start": 36719,
+              "end": 36825,
+              "old": "                                                     @error=\"onGroupExtraNetworkImageError(extraData)\" />\n",
+              "new": "                                                     @error=\"onGroupExtraNetworkImageError(extraData, $event)\" />\n"
+            },
+            {
+              "start": 53007,
+              "end": 53073,
+              "old": "            if (event.isTrusted) this.textareaEditedByUser = true\n",
+              "new": "            if (event.isTrusted || event.fnmUserInput === true) this.textareaEditedByUser = true\n"
+            }
+          ]
+        },
+        {
+          "path": "extensions/sd-webui-prompt-all-in-one-neo/src/src/mixins/phystonPrompt/groupTagsMixin.js",
+          "after": "4cec01830cf467400d41ce832f397354a5024357267763edd5a37615539c701f",
+          "kind": "patch",
+          "before": "9d5df4bded36282de016b325fc1bba6a44176e6026e0c8c568ef8f9251dbd3ce",
+          "edits": [
+            {
+              "start": 13983,
+              "end": 13983,
+              "old": "",
+              "new": "        networkCardThumbnail(item) {\n            const failed = item._fnmImageFailures || [];\n            return [item.thumbnail, item.preview, item.civitai_info?.images?.[0]]\n                .find(url => url && !failed.includes(url)) || this.emptyCardThumbnail();\n        },\n        emptyCardThumbnail() {\n            return \"data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22160%22%20height%3D%22160%22%20viewBox%3D%220%200%20160%20160%22%3E%3Crect%20width%3D%22160%22%20height%3D%22160%22%20fill%3D%22%2330343b%22%2F%3E%3Ctext%20x%3D%2280%22%20y%3D%2280%22%20text-anchor%3D%22middle%22%20dominant-baseline%3D%22middle%22%20fill%3D%22%23c7cbd2%22%20font-size%3D%2215%22%20font-family%3D%22sans-serif%22%3E%E7%94%BB%E5%83%8F%E3%81%AA%E3%81%97%3C%2Ftext%3E%3C%2Fsvg%3E\";\n        },\n"
+            },
+            {
+              "start": 16027,
+              "end": 16178,
+              "old": "        onGroupExtraNetworkImageError(extraData) {\n            // A thumbnail key expires when the server restarts; fall back to the original preview.\n",
+              "new": "        onGroupExtraNetworkImageError(extraData, event) {\n            const current = event?.currentTarget?.getAttribute('src');\n            if (current && current !== this.emptyCardThumbnail()) {\n                extraData._fnmImageFailures = [...new Set([...(extraData._fnmImageFailures || []), current])];\n            }\n            // Keep upstream's expired-thumbnail fallback; also skip broken local/remote previews.\n"
+            }
+          ]
+        },
+        {
+          "path": "extensions/sd-webui-prompt-all-in-one-neo/javascript/main.entry.js.map",
+          "after": "ef5d23cc9aa7402915d03720dc060c524ea945a9b8649a8702de5a9a87caa202",
+          "kind": "replace",
+          "payload": "payload/paio/ef5d23cc9aa7402915d03720dc060c524ea945a9b8649a8702de5a9a87caa202.gz",
+          "compressed": true,
+          "before": "d382b2d3b8650d1e5fd172ed069a13e472fac4bd251e6f8b92aa12e418a680a6"
+        },
+        {
+          "path": "extensions/sd-webui-prompt-all-in-one-neo/style.css",
+          "after": "527716b30b60a9b8147cc68fae4c97667f708c44e86d00a6fccb945405679345",
+          "kind": "replace",
+          "payload": "payload/paio/527716b30b60a9b8147cc68fae4c97667f708c44e86d00a6fccb945405679345.data",
+          "compressed": false,
+          "before": "e8098f502a25be5503a95263399e5215d399417edb750e31d9be56a4800e761f"
+        },
+        {
+          "path": "extensions/sd-webui-prompt-all-in-one-neo/src/package-lock.json",
+          "after": "6e21295dd2ff00844f984a512b2d9f81242c6ce2c394694819ad9ea3b272e02c",
+          "kind": "add",
+          "payload": "payload/paio/6e21295dd2ff00844f984a512b2d9f81242c6ce2c394694819ad9ea3b272e02c.data",
+          "compressed": false
+        }
+      ],
+      "repositories": [
+        {
+          "path": "extensions/sd-webui-prompt-all-in-one-neo",
+          "commit": "c46e279f87f912e5e4ede37bfaa8230fe0222f1d",
+          "url": "https://github.com/eduardoabreu81/sd-webui-prompt-all-in-one-neo"
+        }
+      ],
+      "fork": "https://github.com/asugonomi/sd-webui-prompt-all-in-one-neo",
+      "fork_commit": "bc49fca75ae34c20cc3fba6147ee7cbcbf3c990a",
+      "fork_branch": "forgeneo-modification"
+    },
+    {
+      "id": "civitai-models",
+      "label": "Civitai Helper モデル一覧（任意）",
+      "license": "NOASSERTION (upstream has no LICENSE; model-name list only)",
+      "default": false,
+      "files": [
+        {
+          "path": "extensions/Stable-Diffusion-Webui-Civitai-Helper-RED-UPDATE/browser/supported_models.py",
+          "kind": "patch",
+          "before": "cf9df9b7c7a94804e721a33a0d38c1bc793dcb483c12d6438115f5911bed4ebd",
+          "after": "77f3fb3b46715539a20baa3307f7fe76e7a9c3a4cb1c20cadb3e0a4de9aba4bf",
+          "edits": [
+            {
+              "start": 21,
+              "end": 101,
+              "old": "    \"Aura Flow\",\n    \"CogVideoX\",\n    \"Flux\",\n    \"Flux .1 S\",\n    \"Flux .1 D\",\n",
+              "new": "    \"Anima\",\n    \"Boogu\",\n    \"Chroma\",\n    \"Ernie\",\n    \"Flux 1.0\",\n    \"Flux.1 D\",\n    \"Flux.1 Kontext\",\n    \"Flux.1 Krea\",\n    \"Flux.1 S\",\n    \"Flux.2 D\",\n    \"Flux.2 Klein 4B\",\n    \"Flux.2 Klein 4B-base\",\n    \"Flux.2 Klein 9B\",\n    \"Flux.2 Klein 9B-base\",\n    \"HiDream\",\n    \"HiDream-O1\",\n    \"Ideogram 4.0\",\n"
+            },
+            {
+              "start": 120,
+              "end": 134,
+              "old": "    \"Kolors\",\n",
+              "new": "    \"Illustrious 0.1\",\n    \"Krea 2\",\n    \"Krea2\",\n"
+            },
+            {
+              "start": 146,
+              "end": 146,
+              "old": "",
+              "new": "    \"LTXV 2.3\",\n    \"LTXV2\",\n"
+            },
+            {
+              "start": 160,
+              "end": 173,
+              "old": "    \"Mochi\",\n",
+              "new": "    \"NoobAI\",\n"
+            },
+            {
+              "start": 186,
+              "end": 240,
+              "old": "    \"Pix Art a\",\n    \"PixArt Σ\",\n    \"Playground v2\",\n",
+              "new": ""
+            },
+            {
+              "start": 252,
+              "end": 252,
+              "old": "",
+              "new": "    \"Pony V7\",\n    \"Qwen\",\n"
+            },
+            {
+              "start": 280,
+              "end": 280,
+              "old": "",
+              "new": "    \"SD 1.5 Hyper\",\n"
+            },
+            {
+              "start": 298,
+              "end": 476,
+              "old": "    \"SD 2.0\",\n    \"SD 2.0 768\",\n    \"SD 2.1\",\n    \"SD 2.1 768\",\n    \"SD 2.1 Unclip\",\n    \"SD 3\",\n    \"SD 3.5\",\n    \"SD 3.5 Medium\",\n    \"SD 3.5 Large\",\n    \"SD 3.5 Large Turbo\",\n",
+              "new": ""
+            },
+            {
+              "start": 590,
+              "end": 632,
+              "old": "    \"SDXL Turbo\",\n    \"SVD\",\n    \"SVD XT\"\n",
+              "new": "    \"Upscaler\",\n    \"Wan Video\",\n    \"Wan Video 1.3B t2v\",\n    \"Wan Video 14B i2v 480p\",\n    \"Wan Video 14B i2v 720p\",\n    \"Wan Video 14B t2v\",\n    \"Wan Video 2.2 I2V-A14B\",\n    \"Wan Video 2.2 T2V-A14B\",\n    \"Wan Video 2.2 TI2V-5B\",\n    \"Z-Image\",\n    \"ZImageBase\",\n    \"ZImageTurbo\"\n"
+            }
+          ]
+        }
+      ],
+      "repositories": [
+        {
+          "path": "extensions/Stable-Diffusion-Webui-Civitai-Helper-RED-UPDATE",
+          "commit": "2556ffd6b9032e66669e31433bd74090e7f5d1b4",
+          "url": "https://github.com/Replactionap/Stable-Diffusion-Webui-Civitai-Helper-RED-UPDATE"
+        }
+      ],
+      "fork": "https://github.com/asugonomi/Stable-Diffusion-Webui-Civitai-Helper-RED-UPDATE",
+      "fork_commit": "808e397007081bee7c8af6eade71f2e948f1aa5d",
+      "fork_branch": "master"
+    },
+    {
+      "id": "queue",
+      "label": "生成キュー＋本体パッチ（任意・既定OFF）",
+      "license": "AGPL-3.0 AND MIT",
+      "default": false,
+      "files": [
+        {
+          "path": "backend/args.py",
+          "kind": "patch",
+          "before": "976b635db63348bdef74720bf1b358890277f757cdc75bb5ef3a98ff5b0fb2aa",
+          "after": "df167331c7fcb7d25308526fdf632551be58385ef4333f36b64b3e8cbb79e585",
+          "edits": [
+            {
+              "start": 7938,
+              "end": 7938,
+              "old": "",
+              "new": "from modules.queued_model_scope import selection as queued_selection\n\n\n"
+            },
+            {
+              "start": 7968,
+              "end": 7968,
+              "old": "",
+              "new": "    @property\n    def online_lora(cls):\n        scope = queued_selection.get()\n        return cls._online_lora if scope is None else scope[\"online_lora\"]\n\n    @online_lora.setter\n    def online_lora(cls, value):\n        scope = queued_selection.get()\n        if scope is None:\n            cls._online_lora = value\n        else:\n            scope[\"online_lora\"] = value\n\n"
+            },
+            {
+              "start": 8584,
+              "end": 8614,
+              "old": "    online_lora: bool = False\n",
+              "new": "    _online_lora: bool = False\n"
+            }
+          ]
+        },
+        {
+          "path": "modules/options.py",
+          "kind": "patch",
+          "before": "317723992fa63ffc41bbee5e41036fb8293ad847718283c366e3113f5abe660c",
+          "after": "f7400f7e6f7163a08df6f3339fce0a0e22669c02d920002f63feca8eb7ba4e70",
+          "edits": [
+            {
+              "start": 79,
+              "end": 79,
+              "old": "",
+              "new": "from modules.queued_model_scope import model_keys, selection as queued_selection\n"
+            },
+            {
+              "start": 5335,
+              "end": 5374,
+              "old": "                self.data[key] = value\n",
+              "new": "                scope = queued_selection.get() if key in model_keys else None\n                if scope is not None:\n                    scope[key] = value\n                else:\n                    self.data[key] = value\n"
+            },
+            {
+              "start": 5492,
+              "end": 5492,
+              "old": "",
+              "new": "        if item in model_keys and (scope := queued_selection.get()) is not None:\n            return scope[item]\n"
+            },
+            {
+              "start": 6040,
+              "end": 6082,
+              "old": "        oldval = self.data.get(key, None)\n",
+              "new": "        scope = queued_selection.get() if key in model_keys else None\n        oldval = self.data.get(key, None) if scope is None else scope[key]\n"
+            }
+          ]
+        },
+        {
+          "path": "modules/sd_models.py",
+          "kind": "patch",
+          "before": "aea8941a89a44b00cbd62c3a41b2b3eca976ebe9f03f99563068a64b8168d91c",
+          "after": "014f8b73676f39788f180885cbe774cc787b51a2fe8a0b89118c0c3f660f9fe3",
+          "edits": [
+            {
+              "start": 8384,
+              "end": 8384,
+              "old": "",
+              "new": "from modules.queued_model_scope import selection as queued_selection\n\n\n"
+            },
+            {
+              "start": 8403,
+              "end": 8403,
+              "old": "",
+              "new": "    @property\n    def forge_loading_parameters(self):\n        scope = queued_selection.get()\n        return self._loading_parameters if scope is None else scope[\"loading\"]\n\n    @forge_loading_parameters.setter\n    def forge_loading_parameters(self, value):\n        scope = queued_selection.get()\n        if scope is None:\n            self._loading_parameters = value\n        else:\n            scope[\"loading\"] = value\n\n"
+            }
+          ]
+        },
+        {
+          "path": "modules/ui_settings.py",
+          "kind": "patch",
+          "before": "25dc940b4564dcd33faf32655cd490d5a32de7e17b6e3160277fcba712c5c547",
+          "after": "023258bbba2a07df2bc046846c5f11574f52535dbf268c08b3d1df383ccbc6fa",
+          "edits": [
+            {
+              "start": 13689,
+              "end": 13689,
+              "old": "",
+              "new": "            elif k == \"forge_generation_queue_enabled\" and isinstance(component, gr.Checkbox):\n                # A settings refresh must not submit its snapshot as a user edit.\n                methods = [component.input]\n"
+            }
+          ]
+        },
+        {
+          "path": "modules/queued_model_scope.py",
+          "kind": "add",
+          "payload": "payload/queue/8ba9fb70d482825743b7b0078c541ecc93e32e6ecf6c3b00a7692d96511f315b.data",
+          "compressed": false,
+          "after": "35c4b322106b311bba5040c8e119a674922280b857d0c2531759eaf97d141237"
+        },
+        {
+          "path": "extensions/ForgeNeoModification-Queue/.gitignore",
+          "kind": "add",
+          "payload": "payload/queue/ac53e294541e1ee9d14db4879b70bdff5e8c239d2321cc52714e4b23418d3989.data",
+          "compressed": false,
+          "after": "a55319828cac66f6afe76889f640ff96e1ce1a0e6b6af876b7fd15bcdb229e50"
+        },
+        {
+          "path": "extensions/ForgeNeoModification-Queue/CHANGELOG.md",
+          "kind": "add",
+          "payload": "payload/queue/3c7575a3a002d4d38088f84a0eac8155daae27172b815cc01382c2b1e5afdbdb.data",
+          "compressed": false,
+          "after": "58dfff2f8229cc6460b0f561e0f271cc0167035213bc5bb8a4b75183efa5e094"
+        },
+        {
+          "path": "extensions/ForgeNeoModification-Queue/CONTRIBUTING.md",
+          "kind": "add",
+          "payload": "payload/queue/62e0638e22df7ef76cbdca53ffda7e971806045094ff9ee9267424ec97102c79.data",
+          "compressed": false,
+          "after": "91a1b0039f8d19ec730766ded74f81d3643d387a96cca6a607840507164dec56"
+        },
+        {
+          "path": "extensions/ForgeNeoModification-Queue/LICENSE",
+          "kind": "add",
+          "payload": "payload/queue/c44abbd789091bbead01250dbd5453e60539d2665c69f162335fdbd2936019c2.data",
+          "compressed": false,
+          "after": "15fd1cdc62ffa959b49fd5088bdb1d4b5fa406fa8e420de64603e86458a1a3b8"
+        },
+        {
+          "path": "extensions/ForgeNeoModification-Queue/README.ja.md",
+          "kind": "add",
+          "payload": "payload/queue/0a5c049a22f360d8934bc75e97958b9569f9fd823e32743910f7322c5bc78ddc.data",
+          "compressed": false,
+          "after": "d95b15bcc487e49ffb7182ae14e8bf0400f1eff471cfe5d95bb6e9e0d50ed815"
+        },
+        {
+          "path": "extensions/ForgeNeoModification-Queue/README.md",
+          "kind": "add",
+          "payload": "payload/queue/741e7c85846cf2a009294dd1e66674f5518da39cce10623d3e58996d7a7e74a3.data",
+          "compressed": false,
+          "after": "38d131d2bf6f65c0aecdf87754930fa3b7959c6cdc22479b2f2245b85f07579c"
+        },
+        {
+          "path": "extensions/ForgeNeoModification-Queue/TESTING.md",
+          "kind": "add",
+          "payload": "payload/queue/1da7fbd868df021ab5299b5fe4e9a654307aa2843ce0ce1af9c5fc369672cc82.data",
+          "compressed": false,
+          "after": "4fc409184608f0db522570015b2f7530a990f9e90e257fb9653d53c351f7ca6d"
+        },
+        {
+          "path": "extensions/ForgeNeoModification-Queue/forge_generation_queue/__init__.py",
+          "kind": "add",
+          "payload": "payload/queue/3fe3623a04d94604eb4dbe341edd17ba216904138686f405abf5a6f0e3562f5a.data",
+          "compressed": false,
+          "after": "7e6ba2091dd1a260e07fab3264e260ac05b2e026e4ba55cf332f5f9cbf536d68"
+        },
+        {
+          "path": "extensions/ForgeNeoModification-Queue/forge_generation_queue/i18n.py",
+          "kind": "add",
+          "payload": "payload/queue/998049deebd9dfdbcf82165678afe25aa03020565f0f7079916e9e3575da23c8.data",
+          "compressed": false,
+          "after": "b7f35089f5466c7f8305014706916490e7092c6dc304be88f44264dd5c53325d"
+        },
+        {
+          "path": "extensions/ForgeNeoModification-Queue/forge_generation_queue/queue.py",
+          "kind": "add",
+          "payload": "payload/queue/df19607e6691d99195c54525df0eacf4245f77199e7688b19d8b1d37fbd85070.data",
+          "compressed": false,
+          "after": "e42756ae5ac6ebe51992505628b7de6b25af5591cec83841e94d4634c7cc3053"
+        },
+        {
+          "path": "extensions/ForgeNeoModification-Queue/javascript/generation_queue.js",
+          "kind": "add",
+          "payload": "payload/queue/071b3dbc190e45bd2d6b14552e7c72a38b37364258255154dfc8abc167890b44.data",
+          "compressed": false,
+          "after": "3d9656725ac0edbaa12d99f0363941f85c6b04cb5b8170730bce83225a4e61c4"
+        },
+        {
+          "path": "extensions/ForgeNeoModification-Queue/metadata.ini",
+          "kind": "add",
+          "payload": "payload/queue/bdfa85193eccd06784bbede92accf5be51af27a9dec52f2daae73b0317ec1814.data",
+          "compressed": false,
+          "after": "824a6bb281658f72f8c5206f8871324aba9c5b06a9f2a8a5d55e3bdf498d5671"
+        },
+        {
+          "path": "extensions/ForgeNeoModification-Queue/scripts/generation_queue.py",
+          "kind": "add",
+          "payload": "payload/queue/8e49eccf2bf382c2f893e528ceb8878bf699a2cc9c2743f68efd5b9a9421b5d8.data",
+          "compressed": false,
+          "after": "63527eaa757caef9c645845ba2fefa5215ee7ff814a5d3b8f9f29d41261c10db"
+        },
+        {
+          "path": "extensions/ForgeNeoModification-Queue/style.css",
+          "kind": "add",
+          "payload": "payload/queue/d32ddd51da58200a57f611381c9b4c459e9f998f6a979d30a561c1db8ff5a90d.data",
+          "compressed": false,
+          "after": "2d3edc5161944d7e8712c9d8fcb1cf91786d01f2d39b319d83ced548e7ae95a0"
+        },
+        {
+          "path": "extensions/ForgeNeoModification-Queue/tests/test_client.cjs",
+          "kind": "add",
+          "payload": "payload/queue/7d0632ca6b71cead2dd7e84285762832d3629c0d5c42a10352e042798ff5d546.data",
+          "compressed": false,
+          "after": "278747eace2291e7a155f766fd0e088caa8c77da92097f403f0caa2ed59e454b"
+        },
+        {
+          "path": "extensions/ForgeNeoModification-Queue/tests/test_queue.py",
+          "kind": "add",
+          "payload": "payload/queue/1347069b6af02b954a8eb4c1ffecc7e9d2b4530a791b59ffcc155512a3dba555.data",
+          "compressed": false,
+          "after": "dde0dc1c9fd27c47d247709cbfc5ad529b405f810aedf7ae6b88d896f15785f5"
+        }
+      ],
+      "fork": "https://github.com/asugonomi/Forge-Neo-Generation-Queue",
+      "conflicts": [
+        "Forge-Neo-Generation-Queue"
+      ],
+      "fork_commit": "6f875cfd64bb8bd8a1e5ef535a77cde2e36d3b5b",
+      "fork_branch": "main"
+    }
+  ]
+}

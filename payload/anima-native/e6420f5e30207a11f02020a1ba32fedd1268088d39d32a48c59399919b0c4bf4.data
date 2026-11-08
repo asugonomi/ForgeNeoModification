@@ -1,0 +1,4 @@
+Local Forge adaptation of signed prompt weights, Anima TeaCache and layer replay.
+Sources: https://github.com/pamparamm/ComfyUI-ppm (AGPL-3.0-or-later)
+https://github.com/CocyNoric/ComfyUI-Anima-TeaCache (Apache-2.0)
+Adapted for Forge; coefficients and preset tables retained; no upstream endorsement.

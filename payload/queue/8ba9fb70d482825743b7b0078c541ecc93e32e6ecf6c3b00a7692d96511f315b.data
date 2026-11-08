@@ -1,0 +1,5 @@
+"""Per-render model selection. UI callbacks run outside this context."""
+from contextvars import ContextVar
+
+selection = ContextVar("queued_forge_model", default=None)
+model_keys = frozenset(("sd_model_checkpoint", "forge_additional_modules", "forge_unet_storage_dtype"))

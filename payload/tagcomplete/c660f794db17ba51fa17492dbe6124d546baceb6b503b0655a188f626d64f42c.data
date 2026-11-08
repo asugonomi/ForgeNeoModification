@@ -1,0 +1,19 @@
+{
+  "description": "User public distribution: Danbooru 2026-07-31 family Full dictionary plus legacy-only and Anima supplementary tags; Japanese translation data for Anima 2.9B. File date is not a claim of current/live data.",
+  "personal_usage_data_included": false,
+  "cooccurrence_data_included": false,
+  "files": [
+    {
+      "file": "tags/danbooru_20260731.csv",
+      "rows": 418412,
+      "columns": 4,
+      "sha256": "e0f4f0de3fc1de34976ddadebe43b1e1c3e490bb2508ea339e0db83a234f2cfc"
+    },
+    {
+      "file": "tags/danbooru_translations_jp_anima29.csv",
+      "rows": 54969,
+      "columns": 2,
+      "sha256": "120f200d952c1200227c724f5e146382c6720904d80969c209d29b4489dbc859"
+    }
+  ]
+}

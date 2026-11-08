@@ -1,0 +1,12 @@
+{
+  "repository": "https://github.com/Comfy-Org/ComfyUI",
+  "commit": "63e5bf594339f676b4b15e072529873e3448409e",
+  "file": "comfy/k_diffusion/sampling.py",
+  "sha256": "cfc4221ed0bc1f84a6f5689d3ec440cad3008c2541ab8f5e2599d1a73fac74ce",
+  "functions": [
+    "default_noise_sampler",
+    "sigma_to_half_log_snr",
+    "offset_first_sigma_for_snr",
+    "sample_er_sde"
+  ]
+}

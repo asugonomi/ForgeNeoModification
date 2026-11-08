@@ -1,0 +1,41 @@
+import ast, json, sys, types, importlib.util
+from pathlib import Path
+import torch
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from er_sde_comfy import core
+src=Path(__file__).with_name('upstream_reference.py').read_text(encoding='utf-8')
+names={'sample_er_sde','default_noise_sampler','sigma_to_half_log_snr','offset_first_sigma_for_snr'}
+tree=ast.parse(src);tree.body=[n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name in names]
+class CONST:pass
+ns={'torch':torch,'trange':lambda n,**kw:range(n),'comfy':types.SimpleNamespace(model_sampling=types.SimpleNamespace(CONST=CONST))}
+exec(compile(tree,'official_comfy_sampling.py','exec'),ns)
+results=[]
+for device in (['cpu','cuda'] if torch.cuda.is_available() else ['cpu']):
+ for kind in ['const','epsilon']:
+  prediction=CONST() if kind=='const' else types.SimpleNamespace()
+  prediction.prediction_type=kind;prediction.noise_scale=1.0;prediction.percent_to_sigma=lambda p:3*(1-p)/(1+2*(1-p))
+  model=types.SimpleNamespace()
+  class Model:
+   inner_model=types.SimpleNamespace(predictor=prediction,model_patcher=types.SimpleNamespace(get_model_object=lambda name:prediction))
+   def __call__(self,x,sigma,**kw):return x*.3+sigma.reshape(-1,1,1,1)*.02
+  sigmas=torch.linspace(1 if kind=='const' else 12,0,33,device=device)
+  x=torch.randn((1,4,8,8),generator=torch.Generator().manual_seed(123)).to(device)
+  traces=[]
+  for fn in [ns['sample_er_sde'],core.sample_er_sde,core.sample_er_sde]:
+   rows=[];noise=[]
+   sampler=core.default_noise_sampler(x,1891234730)
+   def noise_fn(a,b):
+    n=sampler(a,b);noise.append(n.clone());return n
+   y=fn(Model(),x.clone(),sigmas,extra_args={'seed':1891234730},disable=True,noise_sampler=noise_fn,callback=lambda d:rows.append(d['x'].clone()))
+   traces.append((y,rows,noise))
+  for value in traces[1:]:
+   assert torch.equal(traces[0][0],value[0])
+   assert all(torch.equal(a,b) for a,b in zip(traces[0][1],value[1]))
+   assert all(torch.equal(a,b) for a,b in zip(traces[0][2],value[2]))
+  # Test unmodified official default RNG, not just a supplied sampler.
+  a=ns['sample_er_sde'](Model(),x.clone(),sigmas,extra_args={'seed':1891234730},disable=True)
+  torch.manual_seed(76543)
+  b=core.sample_er_sde(Model(),x.clone(),sigmas,extra_args={'seed':1891234730},disable=True)
+  assert torch.equal(a,b)
+  results.append({'device':device,'prediction':kind,'steps':32,'step_latents_exact':True,'noise_exact':True,'final_exact':True,'seed_reproducible':True})
+print(json.dumps(results,indent=2))

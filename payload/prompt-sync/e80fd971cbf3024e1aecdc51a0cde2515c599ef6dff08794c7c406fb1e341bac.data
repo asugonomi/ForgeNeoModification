@@ -1,0 +1,64 @@
+// Local responsive prompt synchronization
+/* Keep native prompt editing responsive; synchronize Gradio after an idle pause. */
+(() => {
+    if (window.forgePromptInputSync) return;
+    const selector = '#txt2img_prompt textarea, #txt2img_neg_prompt textarea, #img2img_prompt textarea, #img2img_neg_prompt textarea';
+    const pending = new Map();
+    let forwarding = false;
+    function flush(area) {
+        const entry = pending.get(area);
+        if (!entry) return;
+        clearTimeout(entry.timer);
+        pending.delete(area);
+        forwarding = true;
+        try {
+            const forwarded = new InputEvent('input', {bubbles:true, inputType:entry.inputType, data:entry.data, isComposing:false});
+            forwarded.tacFastHandled = entry.fast;
+            forwarded.fnmUserInput = true; // Preserve real typing for PAIO without marking synthetic LoRA toggles.
+            area.dispatchEvent(forwarded);
+        } finally { forwarding = false; }
+    }
+    function flushAll() { for (const area of [...pending.keys()]) flush(area); }
+    document.addEventListener('input', event => {
+        const area = event.target;
+        if (forwarding || !area.matches?.(selector)) return;
+        if (!event.isTrusted) {
+            const entry = pending.get(area);
+            if (entry) { clearTimeout(entry.timer); pending.delete(area); }
+            return;
+        }
+        event.stopImmediatePropagation();
+        const old = pending.get(area);
+        if (old) clearTimeout(old.timer);
+        const fast = !!window.tacFastSearch?.ready && area.classList.contains('autocomplete') && !event.isComposing;
+        if (fast) area.dispatchEvent(new CustomEvent('tac-fast-input', {detail:{inputType:event.inputType,data:event.data,isComposing:false}}));
+        const entry = {inputType:event.inputType, data:event.data, timer:null, fast};
+        if (!event.isComposing) entry.timer = setTimeout(() => flush(area), Math.max(60, Math.min(500, Number(typeof opts !== 'undefined' ? (opts.tacplus_input_delay ?? 120) : 120))));
+        pending.set(area, entry);
+    }, true);
+    document.addEventListener('compositionend', event => {
+        if (!event.target.matches?.(selector)) return;
+        const entry = pending.get(event.target);
+        if (entry) { clearTimeout(entry.timer); entry.timer = setTimeout(() => flush(event.target), Math.max(60, Math.min(500, Number(typeof opts !== 'undefined' ? (opts.tacplus_input_delay ?? 120) : 120)))); }
+    }, true);
+    document.addEventListener('focusout', event => flush(event.target), true);
+    document.addEventListener('pointerdown', event => {
+        if (!event.target.matches?.(selector)) flushAll();
+    }, true);
+    document.addEventListener('keydown', event => {
+        if (!event.isComposing && (event.key === 'Enter' || event.key === 'Tab' || event.ctrlKey || event.metaKey || event.altKey)) flushAll();
+    }, true);
+    // Programmatic clicks and keyboard-activated buttons may have no pointerdown.
+    // Give Svelte's queued state update a microtask before the original action.
+    document.addEventListener('click', event => {
+        if (!pending.size || event.target.matches?.(selector)) return;
+        event.preventDefault(); event.stopImmediatePropagation();
+        const target = event.target;
+        flushAll();
+        queueMicrotask(() => target.dispatchEvent(new MouseEvent('click', {
+            bubbles:true, cancelable:true, view:window, ctrlKey:event.ctrlKey,
+            shiftKey:event.shiftKey, altKey:event.altKey, metaKey:event.metaKey, button:event.button
+        })));
+    }, true);
+    window.forgePromptInputSync = {flush:flushAll, pending:()=>pending.size};
+})();

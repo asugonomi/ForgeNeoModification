@@ -1,0 +1,198 @@
+"""Forge Neo adaptation of the local PPM NegPip, Anima TeaCache and layer replay workflow."""
+from contextlib import ExitStack
+from functools import partial
+import math
+from unittest.mock import patch
+
+import gradio as gr
+import torch
+from modules import scripts, shared
+
+COEFF = (16.440769544691957, -21.14123745515793, 13.006701290921894,
+         -1.6731977662609427, 0.08632681059623949)
+
+
+# Starting points from the installed ComfyUI-Anima-TeaCache sampler tables.
+PRESETS = {
+    "ER SDE / Conservative": (.15, 0, 100), "ER SDE / Balanced": (.2, 0, 100), "ER SDE / Aggressive": (.35, 0, 100),
+    "Euler a / Conservative": (.75, 0, 75), "Euler a / Balanced": (.85, 0, 75), "Euler a / Aggressive": (.85, 0, 100),
+    "Euler / Conservative": (.05, 0, 100), "Euler / Balanced": (.075, 30, 100), "Euler / Aggressive": (.075, 10, 100),
+}
+
+
+def apply_preset(name):
+    return PRESETS.get(name, (gr.skip(), gr.skip(), gr.skip()))
+
+
+def install_conditioning(p):
+    encode = p.get_conds_with_caching
+    cache_key = p.cached_params
+    p.cached_params = lambda *args, **kw: (*cache_key(*args, **kw), "anima-native-signed-v1")
+
+    def encode_signed(*args, **kwargs):
+        engine = p.sd_model.text_processing_engine_qwen
+        preprocess = engine._preprocess
+
+        def signed(cond, ids, weights):
+            out = preprocess(cond, ids, weights.abs())
+            signs = torch.where(weights < 0, -1, 1).to(out)
+            signs = torch.nn.functional.pad(signs, (0, 0, 0, out.shape[1] - signs.shape[1]), value=1)
+            return torch.cat((out, signs), dim=-1)
+
+        with patch.object(engine, "_preprocess", signed):
+            return encode(*args, **kwargs)
+
+    p.get_conds_with_caching = encode_signed
+
+
+class DenoisePass:
+    def __init__(self, blocks, threshold, cached, replay, stats, cache_window, replay_window, replay_blocks):
+        self.blocks = blocks
+        self.threshold = threshold
+        self.cached = cached
+        self.replay = replay
+        self.cache_window = cache_window
+        self.replay_window = replay_window
+        self.replay_blocks = replay_blocks
+        self.entries = {}
+        self.stats = stats
+
+    def run(self, previous, apply, params):
+        cond = dict(params["c"])
+        context = cond["c_crossattn"]
+        width = self.blocks[0].cross_attn.context_dim
+        mask = None
+        if context.shape[-1] == width + 1:
+            context, mask = context[..., :-1], context[..., -1:]
+            cond["c_crossattn"] = context.contiguous()
+        step = shared.state.preview_step
+        total = max(1, shared.state.sampling_steps)
+        progress = step / max(1, total - 1)
+        percent = 100 * progress
+        do_replay = self.replay and self.replay_window[0] <= percent <= self.replay_window[1]
+        cache_active = self.cached and self.cache_window[0] <= percent <= self.cache_window[1]
+        key = (tuple(params["cond_or_uncond"]), tuple(params["input"].shape))
+        entry = self.entries.setdefault(key, {})
+        sigma = float(params["timestep"][0]) if self.cached else 0
+        # Conditioning (prompt editing, CFG layouts) can change during a pass.
+        if self.cached and (not cache_active or sigma >= entry.get("sigma", float("inf")) or
+                            do_replay != entry.get("replay") or
+                            "context" not in entry or not torch.equal(entry["context"], params["c"]["c_crossattn"])):
+            entry.clear()
+        if self.cached:
+            entry.update(sigma=sigma, replay=do_replay, context=params["c"]["c_crossattn"].detach())
+        skipped = False
+        initial = None
+
+        def forward(index, original, hidden, embedding, text, **kwargs):
+            nonlocal skipped, initial
+            if cache_active and index == 0:
+                initial = hidden
+                block = self.blocks[0]
+                shift, scale, _ = (block.adaln_modulation_self_attn(embedding) + kwargs["adaln_lora_B_T_3D"]).chunk(3, -1)
+                pos = kwargs.get("extra_per_block_pos_emb")
+                probe = block.layer_norm_self_attn(hidden if pos is None else hidden + pos)
+                probe = (probe * (1 + scale[:, :, None, None]) + shift[:, :, None, None]).detach()
+                prior = entry.get("probe")
+                if prior is not None and "residual" in entry and 0 < step < total - 1:
+                    delta = ((probe - prior).abs().mean() / prior.abs().mean()).item()
+                    distance = 0.
+                    for coefficient in COEFF:
+                        distance = distance * delta + coefficient
+                    entry["acc"] += distance
+                    skipped = math.isfinite(entry["acc"]) and entry["acc"] < self.threshold
+                entry["probe"] = probe
+                if skipped:
+                    self.stats["cache"] += 1
+                    return hidden + entry["residual"]
+                entry["acc"] = 0.
+            if skipped:
+                return hidden
+            result = original(hidden, embedding, text, **kwargs)
+            if do_replay and index in self.replay_blocks:
+                result = original(result, embedding, text, **kwargs)
+                self.stats["replay"] += 1
+            if cache_active and index == len(self.blocks) - 1:
+                entry["residual"] = (result - initial).detach()
+            return result
+
+        def signed_value(module, args, value):
+            return value * mask.to(value)
+
+        with ExitStack() as stack:
+            for i, block in enumerate(self.blocks):
+                if mask is not None:
+                    stack.callback(block.cross_attn.v_proj.register_forward_hook(signed_value).remove)
+                if cache_active or (do_replay and i in self.replay_blocks):
+                    stack.enter_context(patch.object(block, "forward", partial(forward, i, block.forward)))
+            if previous is not None:
+                return previous(apply, dict(params, c=cond))
+            return apply(params["input"], params["timestep"], **cond)
+
+
+class Script(scripts.Script):
+    def title(self):
+        return "Anima Native Tools"
+
+    def show(self, is_img2img):
+        return scripts.AlwaysVisible
+
+    def ui(self, is_img2img):
+        prefix = "anima_native_" + ("i2i" if is_img2img else "t2i")
+        with gr.Accordion("Anima Native Tools", open=False):
+            signed = gr.Checkbox(value=True, label="プロンプト内の負の重みを反映 (NegPiP)")
+            cached = gr.Checkbox(value=True, label="Anima TeaCache")
+            preset = gr.Dropdown(["Custom", *PRESETS], value="Custom", label="TeaCache プリセット",
+                                 info="使用中のサンプラーに合わせて選択します。プリセットは下の3項目に反映されます。",
+                                 elem_id=prefix + "_preset")
+            threshold = gr.Slider(.001, 1, value=.15, step=.001, label="TeaCache しきい値", elem_id=prefix + "_threshold")
+            with gr.Row():
+                start = gr.Slider(0, 100, value=0, step=1, label="TeaCache 開始 (%)", elem_id=prefix + "_start")
+                end = gr.Slider(0, 100, value=100, step=1, label="TeaCache 終了 (%)", elem_id=prefix + "_end")
+            replay = gr.Checkbox(value=True, label="指定ブロックを再実行 (Layer Replay)")
+            blocks = gr.Textbox(value="3,4,5", label="再実行するブロック番号（0始まり・カンマ区切り）")
+            with gr.Row():
+                rstart = gr.Slider(0, 100, value=50, step=1, label="Layer Replay 開始 (%)")
+                rend = gr.Slider(0, 100, value=60, step=1, label="Layer Replay 終了 (%)")
+        fields = [threshold, start, end]
+        preset.input(apply_preset, preset, fields, queue=False, show_progress=False)
+        for field in fields:
+            field.input(lambda: "Custom", None, preset, queue=False, show_progress=False)
+        return [signed, cached, threshold, replay, start, end, blocks, rstart, rend]
+
+    def process(self, p, signed, cached, threshold, replay, *settings):
+        if signed and type(p.sd_model).__name__ == "Anima":
+            install_conditioning(p)
+
+    def process_before_every_sampling(self, p, signed, cached, threshold, replay, start=0, end=100, blocks="3,4,5", rstart=50, rend=60, **kwargs):
+        if type(p.sd_model).__name__ != "Anima" or not (signed or cached or replay):
+            return
+        unet = p.sd_model.forge_objects.unet.clone()
+        previous = unet.model_options.get("model_function_wrapper")
+        stats = {"cache": 0, "replay": 0}
+        p.anima_native_stats = stats
+        layers = unet.model.diffusion_model.blocks
+        ids = set()
+        if replay:
+            parts = [s.strip() for s in str(blocks).split(",")]
+            if all(s.isascii() and s.isdigit() and len(s) <= 3 and int(s) < len(layers) for s in parts):
+                ids = {int(s) for s in parts}
+            if not ids or rstart > rend:
+                gr.Warning(f"Layer Replay をスキップしました。番号は 0～{len(layers)-1}、開始は終了以下にしてください。")
+                replay = False
+        if cached and start > end:
+            gr.Warning("TeaCache をスキップしました。開始は終了以下にしてください。")
+            cached = False
+        runtime = DenoisePass(layers, threshold, cached, replay, stats, (start, end), (rstart, rend), ids)
+        unet.set_model_unet_function_wrapper(partial(runtime.run, previous))
+        p.sd_model.forge_objects.unet = unet
+        p.extra_generation_params["Anima Native"] = f"signedV={signed} TeaCache={threshold if cached else 'off'} replay={replay}"
+
+        if cached:
+            p.extra_generation_params["Anima TeaCache range"] = f"{start:g}-{end:g}%"
+        if replay:
+            p.extra_generation_params["Anima Replay"] = f"{','.join(map(str, sorted(ids)))} at {rstart:g}-{rend:g}%"
+
+    def postprocess_batch(self, p, *args, **kwargs):
+        if hasattr(p, "anima_native_stats"):
+            p.extra_generation_params["Anima Native calls"] = str(p.anima_native_stats)
